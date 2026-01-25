@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ChevronDown, Calendar, Trophy } from "lucide-react";
+import { Calendar, Trophy } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import heroBg from "@/assets/hero-bg.jpg";
 
@@ -67,18 +67,22 @@ export const HeroSection = () => {
           transition={{ duration: 0.8, delay: 0.4 }}
           className="flex flex-col sm:flex-row gap-4 justify-center items-center"
         >
-          <Button size="lg" className="font-display text-lg tracking-wide px-8 shadow-glow animate-pulse-glow">
-            <Calendar className="mr-2 h-5 w-5" />
-            VIEW FIXTURES
-          </Button>
-          <Button
-            variant="outline"
-            size="lg"
-            className="font-display text-lg tracking-wide px-8 border-primary/50 text-primary hover:bg-primary/10"
-          >
-            <Trophy className="mr-2 h-5 w-5" />
-            OUR ACHIEVEMENTS
-          </Button>
+          <a href="#fixtures">
+            <Button size="lg" className="font-display text-lg tracking-wide px-8 shadow-glow animate-pulse-glow">
+              <Calendar className="mr-2 h-5 w-5" />
+              VIEW FIXTURES
+            </Button>
+          </a>
+          <a href="#about">
+            <Button
+              variant="outline"
+              size="lg"
+              className="font-display text-lg tracking-wide px-8 border-primary/50 text-primary hover:bg-primary/10"
+            >
+              <Trophy className="mr-2 h-5 w-5" />
+              OUR ACHIEVEMENTS
+            </Button>
+          </a>
         </motion.div>
 
         {/* Stats */}
@@ -101,21 +105,6 @@ export const HeroSection = () => {
           ))}
         </motion.div>
       </div>
-
-      {/* Scroll Indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.5 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2"
-      >
-        <motion.div
-          animate={{ y: [0, 10, 0] }}
-          transition={{ duration: 1.5, repeat: Infinity }}
-        >
-          <ChevronDown className="h-8 w-8 text-muted-foreground" />
-        </motion.div>
-      </motion.div>
     </section>
   );
 };
