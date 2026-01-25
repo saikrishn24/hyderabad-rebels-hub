@@ -1,21 +1,28 @@
 import { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import hydRebelsLogo from "@/assets/hyd-rebels-logo.jpg";
 
 const navLinks = [
-  { name: "Home", href: "#home" },
-  { name: "About", href: "#about" },
-  { name: "Squad", href: "#squad" },
-  { name: "Matches", href: "#matches" },
-  { name: "Gallery", href: "#gallery" },
-  { name: "Sponsors", href: "#sponsors" },
-  { name: "Contact", href: "#contact" },
+  { name: "Home", href: "/" },
+  { name: "Squad", href: "/squad" },
+  { name: "Matches", href: "/matches" },
+  { name: "Stats", href: "/stats" },
+  { name: "Gallery", href: "/gallery" },
+  { name: "Sponsors", href: "/sponsors" },
+  { name: "Contact", href: "/contact" },
 ];
 
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const location = useLocation();
+
+  const isActive = (href: string) => {
+    if (href === "/") return location.pathname === "/";
+    return location.pathname.startsWith(href);
+  };
 
   return (
     <motion.nav
@@ -24,9 +31,9 @@ export const Navbar = () => {
       transition={{ duration: 0.6 }}
       className="fixed top-0 left-0 right-0 z-50 bg-background/90 backdrop-blur-md border-b border-border"
     >
-      <div className="container-custom flex items-center justify-between h-16 md:h-20 px-4">
+      <div className="container mx-auto flex items-center justify-between h-16 md:h-20 px-4">
         {/* Logo */}
-        <a href="#home" className="flex items-center gap-3">
+        <Link to="/" className="flex items-center gap-3">
           <img 
             src={hydRebelsLogo} 
             alt="HYD Rebels CC Logo" 
@@ -38,29 +45,37 @@ export const Navbar = () => {
             </h1>
             <p className="text-xs text-gold font-semibold tracking-widest -mt-1">CRICKET CLUB</p>
           </div>
-        </a>
+        </Link>
 
         {/* Desktop Navigation */}
         <div className="hidden lg:flex items-center gap-8">
           {navLinks.map((link) => (
-            <a
+            <Link
               key={link.name}
-              href={link.href}
-              className="font-medium text-sm text-muted-foreground hover:text-foreground transition-colors relative group"
+              to={link.href}
+              className={`font-medium text-sm transition-colors relative group ${
+                isActive(link.href)
+                  ? "text-primary"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
             >
               {link.name}
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full" />
-            </a>
+              <span 
+                className={`absolute -bottom-1 left-0 h-0.5 bg-primary transition-all ${
+                  isActive(link.href) ? "w-full" : "w-0 group-hover:w-full"
+                }`} 
+              />
+            </Link>
           ))}
         </div>
 
         {/* CTA Button */}
         <div className="hidden lg:block">
-          <a href="#join">
+          <Link to="/contact">
             <Button variant="default" className="font-display tracking-wide">
               JOIN THE TEAM
             </Button>
-          </a>
+          </Link>
         </div>
 
         {/* Mobile Menu Toggle */}
@@ -82,25 +97,32 @@ export const Navbar = () => {
             exit={{ opacity: 0, height: 0 }}
             className="lg:hidden bg-background border-b border-border overflow-hidden"
           >
-            <div className="container-custom py-4 px-4 flex flex-col gap-4">
+            <div className="container mx-auto py-4 px-4 flex flex-col gap-4">
               {navLinks.map((link, index) => (
-                <motion.a
+                <motion.div
                   key={link.name}
-                  href={link.href}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.05 }}
-                  onClick={() => setIsOpen(false)}
-                  className="font-display text-lg text-foreground hover:text-primary transition-colors py-2 border-b border-border/50"
                 >
-                  {link.name}
-                </motion.a>
+                  <Link
+                    to={link.href}
+                    onClick={() => setIsOpen(false)}
+                    className={`font-display text-lg block py-2 border-b border-border/50 transition-colors ${
+                      isActive(link.href)
+                        ? "text-primary"
+                        : "text-foreground hover:text-primary"
+                    }`}
+                  >
+                    {link.name}
+                  </Link>
+                </motion.div>
               ))}
-              <a href="#join" onClick={() => setIsOpen(false)}>
+              <Link to="/contact" onClick={() => setIsOpen(false)}>
                 <Button variant="default" className="font-display tracking-wide mt-2 w-full">
                   JOIN THE TEAM
                 </Button>
-              </a>
+              </Link>
             </div>
           </motion.div>
         )}

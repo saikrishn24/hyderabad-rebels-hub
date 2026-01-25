@@ -1,12 +1,13 @@
+import { Link } from "react-router-dom";
 import { Instagram, Youtube, Facebook, Twitter, Heart } from "lucide-react";
 
 const quickLinks = [
-  { name: "Home", href: "#home" },
-  { name: "About", href: "#about" },
-  { name: "Squad", href: "#squad" },
-  { name: "Matches", href: "#matches" },
-  { name: "Gallery", href: "#gallery" },
-  { name: "Contact", href: "#contact" },
+  { name: "Home", href: "/" },
+  { name: "Squad", href: "/squad" },
+  { name: "Matches", href: "/matches" },
+  { name: "Stats", href: "/stats" },
+  { name: "Gallery", href: "/gallery" },
+  { name: "Contact", href: "/contact" },
 ];
 
 const socialLinks = [
@@ -19,7 +20,7 @@ const socialLinks = [
 export const Footer = () => {
   return (
     <footer className="bg-card border-t border-border">
-      <div className="container-custom section-padding pb-8">
+      <div className="container mx-auto py-16 px-4">
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
           {/* Brand */}
           <div className="lg:col-span-2">
@@ -55,12 +56,12 @@ export const Footer = () => {
             <ul className="space-y-3">
               {quickLinks.map((link) => (
                 <li key={link.name}>
-                  <a
-                    href={link.href}
+                  <Link
+                    to={link.href}
                     className="text-muted-foreground hover:text-foreground transition-colors"
                   >
                     {link.name}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
