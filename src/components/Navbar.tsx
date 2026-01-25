@@ -2,6 +2,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import hydRebelsLogo from "@/assets/hyd-rebels-logo.png";
 
 const navLinks = [
   { name: "Home", href: "#home" },
@@ -26,14 +27,16 @@ export const Navbar = () => {
       <div className="container-custom flex items-center justify-between h-16 md:h-20 px-4">
         {/* Logo */}
         <a href="#home" className="flex items-center gap-3">
-          <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-primary flex items-center justify-center shadow-glow">
-            <span className="font-display text-lg md:text-xl font-bold text-primary-foreground">HR</span>
-          </div>
+          <img 
+            src={hydRebelsLogo} 
+            alt="HYD Rebels CC Logo" 
+            className="w-12 h-12 md:w-14 md:h-14 object-contain"
+          />
           <div className="hidden sm:block">
             <h1 className="font-display text-lg md:text-xl font-bold text-foreground leading-tight">
-              HYDERABAD
+              HYD REBELS
             </h1>
-            <p className="text-xs text-gold font-semibold tracking-widest -mt-1">REBELS CC</p>
+            <p className="text-xs text-gold font-semibold tracking-widest -mt-1">CRICKET CLUB</p>
           </div>
         </a>
 
