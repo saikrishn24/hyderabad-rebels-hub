@@ -2,7 +2,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import hydRebelsLogo from "@/assets/hyd-rebels-logo.png";
+import hydRebelsLogo from "@/assets/hyd-rebels-logo.jpg";
 
 const navLinks = [
   { name: "Home", href: "#home" },
