@@ -10,7 +10,7 @@ const quickLinks = [
 ];
 
 const socialLinks = [
-  { name: "Instagram", icon: Instagram, href: "#" },
+  { name: "Instagram", icon: Instagram, href: "https://www.instagram.com/hydrebels_cricketclub" },
   { name: "YouTube", icon: Youtube, href: "#" },
   { name: "Facebook", icon: Facebook, href: "#" },
   { name: "Twitter", icon: Twitter, href: "#" },
