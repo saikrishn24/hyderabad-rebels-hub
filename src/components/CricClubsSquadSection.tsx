@@ -46,11 +46,6 @@ export const CricClubsSquadSection = () => {
       
       setPlayers(playersData);
       setCacheStatus(status);
-
-      // If no data or stale, trigger sync
-      if (playersData.length === 0 || status.isStale) {
-        await handleSync(false);
-      }
     } catch (error) {
       console.error('Error loading data:', error);
       toast.error('Failed to load player data');
