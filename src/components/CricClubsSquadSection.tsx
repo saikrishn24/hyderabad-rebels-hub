@@ -5,11 +5,11 @@ import { User, RefreshCw, Search, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { 
-  getPlayers, 
+  getPlayersWithStats, 
   syncCricClubsData, 
   getCacheStatus, 
   getRoleColor,
-  type Player,
+  type PlayerWithStats,
   type CacheStatus
 } from "@/lib/cricclubs";
 import { toast } from "sonner";
@@ -20,8 +20,8 @@ export const CricClubsSquadSection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   
-  const [players, setPlayers] = useState<Player[]>([]);
-  const [filteredPlayers, setFilteredPlayers] = useState<Player[]>([]);
+  const [players, setPlayers] = useState<PlayerWithStats[]>([]);
+  const [filteredPlayers, setFilteredPlayers] = useState<PlayerWithStats[]>([]);
   const [loading, setLoading] = useState(true);
   const [syncing, setSyncing] = useState(false);
   const [cacheStatus, setCacheStatus] = useState<CacheStatus | null>(null);
@@ -40,7 +40,7 @@ export const CricClubsSquadSection = () => {
     setLoading(true);
     try {
       const [playersData, status] = await Promise.all([
-        getPlayers(),
+        getPlayersWithStats(),
         getCacheStatus(),
       ]);
       
@@ -62,7 +62,7 @@ export const CricClubsSquadSection = () => {
         if (showToast) toast.success(result.message);
         // Reload data after sync
         const [playersData, status] = await Promise.all([
-          getPlayers(),
+          getPlayersWithStats(),
           getCacheStatus(),
         ]);
         setPlayers(playersData);
@@ -245,6 +245,44 @@ export const CricClubsSquadSection = () => {
                   <span className={`inline-block text-xs font-semibold px-3 py-1 rounded-full border ${getRoleColor(player.role)}`}>
                     {player.role || 'Player'}
                   </span>
+
+                  {/* Stats Section */}
+                  {(player.battingStats || player.bowlingStats) && (
+                    <div className="mt-4 pt-4 border-t border-border">
+                      {player.battingStats && (player.battingStats.matches ?? 0) > 0 && (
+                        <div className="grid grid-cols-3 gap-2 mb-3">
+                          <div className="text-center">
+                            <p className="text-xs text-muted-foreground">Runs</p>
+                            <p className="font-display text-sm font-bold text-gold">{player.battingStats.runs ?? 0}</p>
+                          </div>
+                          <div className="text-center">
+                            <p className="text-xs text-muted-foreground">Avg</p>
+                            <p className="font-display text-sm font-bold text-foreground">{(player.battingStats.average ?? 0).toFixed(1)}</p>
+                          </div>
+                          <div className="text-center">
+                            <p className="text-xs text-muted-foreground">SR</p>
+                            <p className="font-display text-sm font-bold text-foreground">{(player.battingStats.strike_rate ?? 0).toFixed(1)}</p>
+                          </div>
+                        </div>
+                      )}
+                      {player.bowlingStats && (player.bowlingStats.wickets ?? 0) > 0 && (
+                        <div className="grid grid-cols-3 gap-2">
+                          <div className="text-center">
+                            <p className="text-xs text-muted-foreground">Wkts</p>
+                            <p className="font-display text-sm font-bold text-primary">{player.bowlingStats.wickets ?? 0}</p>
+                          </div>
+                          <div className="text-center">
+                            <p className="text-xs text-muted-foreground">Econ</p>
+                            <p className="font-display text-sm font-bold text-foreground">{(player.bowlingStats.economy ?? 0).toFixed(2)}</p>
+                          </div>
+                          <div className="text-center">
+                            <p className="text-xs text-muted-foreground">Avg</p>
+                            <p className="font-display text-sm font-bold text-foreground">{(player.bowlingStats.average ?? 0).toFixed(1)}</p>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
 
                   {/* CricClubs Link */}
                   {player.profile_url && (
