@@ -15,33 +15,33 @@ export interface Player {
 
 export interface BattingStats {
   player_id: string;
-  matches: number;
-  innings: number;
-  runs: number;
-  balls: number;
-  average: number;
-  strike_rate: number;
-  fours: number;
-  sixes: number;
+  matches: number | null;
+  innings: number | null;
+  runs: number | null;
+  balls: number | null;
+  average: number | null;
+  strike_rate: number | null;
+  fours: number | null;
+  sixes: number | null;
   highest_score: string | null;
-  not_outs: number;
-  fifties: number;
-  hundreds: number;
+  not_outs: number | null;
+  fifties: number | null;
+  hundreds: number | null;
 }
 
 export interface BowlingStats {
   player_id: string;
-  matches: number;
-  innings: number;
-  overs: number;
-  maidens: number;
-  runs_conceded: number;
-  wickets: number;
-  economy: number;
-  average: number;
-  strike_rate: number;
+  matches: number | null;
+  innings: number | null;
+  overs: number | null;
+  maidens: number | null;
+  runs_conceded: number | null;
+  wickets: number | null;
+  economy: number | null;
+  average: number | null;
+  strike_rate: number | null;
   best_figures: string | null;
-  five_wickets: number;
+  five_wickets: number | null;
 }
 
 export interface FieldingStats {
@@ -72,6 +72,11 @@ export interface CacheStatus {
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
 const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
 
+export interface PlayerWithStats extends Player {
+  battingStats?: BattingStats | null;
+  bowlingStats?: BowlingStats | null;
+}
+
 export async function getPlayers(): Promise<Player[]> {
   const { data, error } = await supabase
     .from('cricclubs_players')
@@ -84,6 +89,32 @@ export async function getPlayers(): Promise<Player[]> {
   }
 
   return data || [];
+}
+
+export async function getPlayersWithStats(): Promise<PlayerWithStats[]> {
+  const [playersResult, battingResult, bowlingResult] = await Promise.all([
+    supabase.from('cricclubs_players').select('*').order('name'),
+    supabase.from('cricclubs_batting_stats').select('*'),
+    supabase.from('cricclubs_bowling_stats').select('*'),
+  ]);
+
+  if (playersResult.error) {
+    console.error('Error fetching players:', playersResult.error);
+    return [];
+  }
+
+  const battingMap = new Map(
+    (battingResult.data || []).map((s) => [s.player_id, s])
+  );
+  const bowlingMap = new Map(
+    (bowlingResult.data || []).map((s) => [s.player_id, s])
+  );
+
+  return (playersResult.data || []).map((player) => ({
+    ...player,
+    battingStats: battingMap.get(player.player_id) || null,
+    bowlingStats: bowlingMap.get(player.player_id) || null,
+  }));
 }
 
 export async function getPlayerById(playerId: string): Promise<Player | null> {
