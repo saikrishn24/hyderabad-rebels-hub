@@ -23,13 +23,26 @@ export const ContactSection = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    
-    toast.success("Message sent successfully! We'll get back to you soon.");
-    setFormData({ name: "", email: "", subject: "", message: "" });
-    setIsSubmitting(false);
+
+    try {
+      // Open email client with pre-filled content
+      const subject = encodeURIComponent(formData.subject || `Contact from ${formData.name}`);
+      const body = encodeURIComponent(
+        `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
+      );
+      window.open(`mailto:rebels.hyd@gmail.com?subject=${subject}&body=${body}`, '_blank');
+
+      toast.success("Opening email client... You can also DM us on Instagram @hydrebels_cricketclub!");
+      setFormData({ name: "", email: "", subject: "", message: "" });
+    } catch (error) {
+      toast.error("Something went wrong. Please email us directly at rebels.hyd@gmail.com");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const openInstagramDM = () => {
+    window.open("https://www.instagram.com/hydrebels_cricketclub", "_blank");
   };
 
   return (
@@ -188,21 +201,32 @@ export const ContactSection = () => {
                 />
               </div>
 
-              <Button
-                type="submit"
-                size="lg"
-                className="w-full font-display tracking-wide shadow-glow"
-                disabled={isSubmitting}
-              >
-                {isSubmitting ? (
-                  "Sending..."
-                ) : (
-                  <>
-                    <Send className="mr-2 h-5 w-5" />
-                    Send Message
-                  </>
-                )}
-              </Button>
+              <div className="flex flex-col sm:flex-row gap-3">
+                <Button
+                  type="submit"
+                  size="lg"
+                  className="flex-1 font-display tracking-wide shadow-glow"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? (
+                    "Sending..."
+                  ) : (
+                    <>
+                      <Send className="mr-2 h-5 w-5" />
+                      Send via Email
+                    </>
+                  )}
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="lg"
+                  onClick={openInstagramDM}
+                  className="flex-1 font-display tracking-wide border-primary/50 hover:bg-primary/10"
+                >
+                  DM on Instagram
+                </Button>
+              </div>
             </form>
           </motion.div>
         </div>

@@ -4,6 +4,7 @@ import { AboutSection } from "@/components/AboutSection";
 import { CricClubsSquadSection } from "@/components/CricClubsSquadSection";
 import { MatchesSection } from "@/components/MatchesSection";
 import { GallerySection } from "@/components/GallerySection";
+import { SponsorInterestSection } from "@/components/SponsorInterestSection";
 import { ContactSection } from "@/components/ContactSection";
 import { Footer } from "@/components/Footer";
 
@@ -16,6 +17,7 @@ const Index = () => {
       <CricClubsSquadSection />
       <MatchesSection />
       <GallerySection />
+      <SponsorInterestSection />
       <ContactSection />
       <Footer />
     </div>
