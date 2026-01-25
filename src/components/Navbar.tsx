@@ -56,7 +56,7 @@ export const Navbar = () => {
 
         {/* CTA Button */}
         <div className="hidden lg:block">
-          <a href="#contact">
+          <a href="#join">
             <Button variant="default" className="font-display tracking-wide">
               JOIN THE TEAM
             </Button>
@@ -96,7 +96,7 @@ export const Navbar = () => {
                   {link.name}
                 </motion.a>
               ))}
-              <a href="#contact" onClick={() => setIsOpen(false)}>
+              <a href="#join" onClick={() => setIsOpen(false)}>
                 <Button variant="default" className="font-display tracking-wide mt-2 w-full">
                   JOIN THE TEAM
                 </Button>
