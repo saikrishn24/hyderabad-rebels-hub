@@ -27,8 +27,8 @@ export const HeroSection = () => {
           transition={{ duration: 0.8 }}
           className="mb-6"
         >
-          <span className="inline-block px-4 py-2 bg-primary/20 border border-primary/40 rounded-full text-sm font-medium text-gold tracking-wider">
-            ESTABLISHED 2020 • HYDERABAD
+          <span className="inline-block px-4 py-2 bg-primary/20 border border-primary/40 rounded-full text-sm font-medium text-primary tracking-wider">
+            ESTABLISHED 2023 • SCARBOROUGH, ON
           </span>
         </motion.div>
 
@@ -40,7 +40,7 @@ export const HeroSection = () => {
         >
           <span className="text-foreground">HYDERABAD</span>
           <br />
-          <span className="text-gradient-gold">REBELS</span>
+          <span className="text-gradient-orange">REBELS</span>
         </motion.h1>
 
         <motion.p
@@ -74,7 +74,7 @@ export const HeroSection = () => {
           <Button
             variant="outline"
             size="lg"
-            className="font-display text-lg tracking-wide px-8 border-gold/50 text-gold hover:bg-gold/10"
+            className="font-display text-lg tracking-wide px-8 border-primary/50 text-primary hover:bg-primary/10"
           >
             <Trophy className="mr-2 h-5 w-5" />
             OUR ACHIEVEMENTS
@@ -89,13 +89,13 @@ export const HeroSection = () => {
           className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-6 max-w-3xl mx-auto"
         >
           {[
-            { value: "50+", label: "Matches Played" },
-            { value: "38", label: "Victories" },
-            { value: "5", label: "Championships" },
+            { value: "25+", label: "Matches Played" },
+            { value: "18", label: "Victories" },
+            { value: "2", label: "Championships" },
             { value: "22", label: "Team Members" },
           ].map((stat, index) => (
             <div key={index} className="text-center">
-              <p className="font-display text-3xl md:text-4xl font-bold text-gold">{stat.value}</p>
+              <p className="font-display text-3xl md:text-4xl font-bold text-primary">{stat.value}</p>
               <p className="text-sm text-muted-foreground mt-1">{stat.label}</p>
             </div>
           ))}

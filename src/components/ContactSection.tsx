@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef, useState } from "react";
-import { Mail, Phone, MapPin, Send, Instagram, Youtube, Facebook, Twitter } from "lucide-react";
+import { Mail, MapPin, Send, Instagram, Youtube, Facebook, Twitter } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -42,12 +42,12 @@ export const ContactSection = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <span className="text-gold font-semibold tracking-widest text-sm">GET IN TOUCH</span>
+          <span className="text-primary font-semibold tracking-widest text-sm">GET IN TOUCH</span>
           <h2 className="font-display text-4xl md:text-5xl font-bold mt-2 text-foreground">
-            CONTACT <span className="text-gradient-crimson">US</span>
+            CONTACT <span className="text-gradient-orange">US</span>
           </h2>
           <p className="text-muted-foreground mt-4 max-w-xl mx-auto">
-            Have questions or want to join the team? We'd love to hear from you.
+            Have questions or want to connect with the team? We'd love to hear from you.
           </p>
         </motion.div>
 
@@ -67,33 +67,34 @@ export const ContactSection = () => {
                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground mb-1">Email</p>
-                  <a href="mailto:contact@hyderabadrebels.com" className="text-foreground font-medium hover:text-primary transition-colors">
-                    contact@hyderabadrebels.com
+                  <a href="mailto:rebels.hyd@gmail.com" className="text-foreground font-medium hover:text-primary transition-colors">
+                    rebels.hyd@gmail.com
                   </a>
                 </div>
               </div>
 
               <div className="flex items-start gap-4">
-                <div className="w-12 h-12 rounded-lg bg-gold/10 border border-gold/30 flex items-center justify-center flex-shrink-0">
-                  <Phone className="h-5 w-5 text-gold" />
+                <div className="w-12 h-12 rounded-lg bg-primary/10 border border-primary/30 flex items-center justify-center flex-shrink-0">
+                  <MapPin className="h-5 w-5 text-primary" />
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground mb-1">Phone</p>
-                  <a href="tel:+919876543210" className="text-foreground font-medium hover:text-gold transition-colors">
-                    +91 98765 43210
-                  </a>
+                  <p className="text-sm text-muted-foreground mb-1">Location</p>
+                  <p className="text-foreground font-medium">
+                    Scarborough, Ontario<br />
+                    Canada
+                  </p>
                 </div>
               </div>
 
               <div className="flex items-start gap-4">
-              <div className="w-12 h-12 rounded-lg bg-accent/10 border border-accent/30 flex items-center justify-center flex-shrink-0">
-                <MapPin className="h-5 w-5 text-accent" />
-              </div>
+                <div className="w-12 h-12 rounded-lg bg-accent/10 border border-accent/30 flex items-center justify-center flex-shrink-0">
+                  <MapPin className="h-5 w-5 text-accent" />
+                </div>
                 <div>
                   <p className="text-sm text-muted-foreground mb-1">Practice Ground</p>
                   <p className="text-foreground font-medium">
-                    LB Stadium, Basheer Bagh,<br />
-                    Hyderabad, Telangana 500001
+                    Ellesmere Reservoir Park<br />
+                    Scarborough, ON
                   </p>
                 </div>
               </div>

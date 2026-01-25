@@ -62,7 +62,7 @@ export default {
           ring: "hsl(var(--sidebar-ring))",
         },
         gold: "hsl(var(--gold))",
-        crimson: "hsl(var(--crimson))",
+        orange: "hsl(var(--orange))",
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -91,8 +91,8 @@ export default {
           "100%": { opacity: "1", transform: "scale(1)" },
         },
         "pulse-glow": {
-          "0%, 100%": { boxShadow: "0 0 20px hsl(350 80% 45% / 0.3)" },
-          "50%": { boxShadow: "0 0 40px hsl(350 80% 45% / 0.5)" },
+          "0%, 100%": { boxShadow: "0 0 20px hsl(25 95% 53% / 0.3)" },
+          "50%": { boxShadow: "0 0 40px hsl(25 95% 53% / 0.5)" },
         },
       },
       animation: {
