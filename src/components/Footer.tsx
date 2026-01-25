@@ -29,11 +29,11 @@ export const Footer = () => {
               </div>
               <div>
                 <h3 className="font-display text-xl font-bold text-foreground">HYDERABAD REBELS</h3>
-                <p className="text-xs text-gold font-semibold tracking-widest">CRICKET CLUB</p>
+                <p className="text-xs text-primary font-semibold tracking-widest">CRICKET CLUB</p>
               </div>
             </div>
             <p className="text-muted-foreground max-w-md mb-6">
-              Dominating the local cricket scene since 2020. Join us in our journey to excellence and be part of the Rebels family.
+              Dominating the local cricket scene since 2023. Join us in our journey to excellence and be part of the Rebels family.
             </p>
             <div className="flex gap-3">
               {socialLinks.map((social) => (
@@ -71,18 +71,13 @@ export const Footer = () => {
             <h4 className="font-display text-lg font-bold text-foreground mb-4">Contact</h4>
             <ul className="space-y-3 text-muted-foreground">
               <li>
-                <a href="mailto:contact@hyderabadrebels.com" className="hover:text-foreground transition-colors">
-                  contact@hyderabadrebels.com
+                <a href="mailto:rebels.hyd@gmail.com" className="hover:text-foreground transition-colors">
+                  rebels.hyd@gmail.com
                 </a>
               </li>
               <li>
-                <a href="tel:+919876543210" className="hover:text-foreground transition-colors">
-                  +91 98765 43210
-                </a>
-              </li>
-              <li>
-                LB Stadium, Basheer Bagh,<br />
-                Hyderabad, TS 500001
+                Ellesmere Reservoir Park<br />
+                Scarborough, Ontario, Canada
               </li>
             </ul>
           </div>

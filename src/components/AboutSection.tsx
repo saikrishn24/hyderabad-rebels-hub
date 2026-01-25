@@ -27,11 +27,11 @@ const values = [
 ];
 
 const achievements = [
-  "Hyderabad Premier League Champions 2023",
-  "Corporate Cricket Cup Winners 2022",
-  "Best Team Award - HPCL Tournament 2023",
-  "Runners-up - City Cricket Championship 2024",
-  "Fair Play Award 2022, 2023",
+  "Scarborough Cricket League Champions 2024",
+  "GTA Summer Cup Winners 2024",
+  "Best Team Award - Ontario Cricket Tournament 2024",
+  "Runners-up - Toronto Cricket Championship 2023",
+  "Fair Play Award 2023, 2024",
 ];
 
 export const AboutSection = () => {
@@ -48,9 +48,9 @@ export const AboutSection = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <span className="text-gold font-semibold tracking-widest text-sm">WHO WE ARE</span>
+          <span className="text-primary font-semibold tracking-widest text-sm">WHO WE ARE</span>
           <h2 className="font-display text-4xl md:text-5xl font-bold mt-2 text-foreground">
-            ABOUT THE <span className="text-gradient-gold">REBELS</span>
+            ABOUT THE <span className="text-gradient-orange">REBELS</span>
           </h2>
         </motion.div>
 
@@ -62,10 +62,10 @@ export const AboutSection = () => {
           className="max-w-4xl mx-auto text-center mb-16"
         >
           <p className="text-lg text-muted-foreground leading-relaxed mb-6">
-            Founded in 2020, the <span className="text-foreground font-semibold">Hyderabad Rebels Cricket Club</span> emerged from a shared passion for cricket and a burning desire to compete at the highest level. What started as a group of friends playing weekend cricket has evolved into one of Hyderabad's most formidable cricket teams.
+            Founded in 2023, the <span className="text-foreground font-semibold">Hyderabad Rebels Cricket Club</span> emerged from a shared passion for cricket and a burning desire to compete at the highest level. Based in Scarborough, Ontario, what started as a group of cricket enthusiasts has quickly evolved into one of the GTA's most competitive cricket teams.
           </p>
           <p className="text-lg text-muted-foreground leading-relaxed">
-            Our journey has been marked by relentless dedication, countless hours of practice, and an unwavering commitment to excellence. Today, we stand proud as multiple-time champions, but our hunger for success remains as strong as ever.
+            Training at Ellesmere Reservoir Park, our journey has been marked by relentless dedication, countless hours of practice, and an unwavering commitment to excellence. We bring the spirit of Hyderabad cricket to Canada, combining passion with skill.
           </p>
         </motion.div>
 
@@ -93,10 +93,10 @@ export const AboutSection = () => {
           initial={{ opacity: 0, y: 40 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.6 }}
-          className="bg-gradient-to-r from-primary/10 via-background to-gold/10 border border-border rounded-xl p-8"
+          className="bg-gradient-to-r from-primary/10 via-background to-primary/5 border border-border rounded-xl p-8"
         >
           <h3 className="font-display text-2xl font-bold text-center mb-6 text-foreground">
-            <Trophy className="inline-block mr-2 h-6 w-6 text-gold" />
+            <Trophy className="inline-block mr-2 h-6 w-6 text-primary" />
             Our Achievements
           </h3>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -108,7 +108,7 @@ export const AboutSection = () => {
                 transition={{ duration: 0.4, delay: 0.7 + index * 0.1 }}
                 className="flex items-center gap-3 bg-background/50 rounded-lg p-4"
               >
-                <Star className="h-5 w-5 text-gold flex-shrink-0" />
+                <Star className="h-5 w-5 text-primary flex-shrink-0" />
                 <span className="text-sm text-foreground font-medium">{achievement}</span>
               </motion.div>
             ))}
