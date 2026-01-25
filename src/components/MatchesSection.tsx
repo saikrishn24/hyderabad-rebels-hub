@@ -284,6 +284,110 @@ const lclMatches: Match[] = [
   },
 ];
 
+// Toronto Super Cricket League 2025 - The Hundred format
+const tsclMatches: Match[] = [
+  {
+    id: 1,
+    opponent: "Mailam Cricket Club",
+    date: "Sep 10, 2025",
+    result: "lost",
+    margin: "by 5 Wickets",
+    rebelsScore: "134/5 (100)",
+    opponentScore: "135/5 (95)",
+    scorecardUrl: "https://cricclubs.com/TorontoSuperCricketLeague/viewScorecard.do?matchId=1200&clubId=1003702",
+  },
+  {
+    id: 2,
+    opponent: "Durham Maple Leafs",
+    date: "Aug 13, 2025",
+    result: "lost",
+    margin: "by 33 Runs",
+    rebelsScore: "93/6 (100)",
+    opponentScore: "126/7 (100)",
+    scorecardUrl: "https://cricclubs.com/TorontoSuperCricketLeague/viewScorecard.do?matchId=1190&clubId=1003702",
+  },
+  {
+    id: 3,
+    opponent: "Toronto Rebels Cricket Club",
+    date: "Aug 6, 2025",
+    result: "lost",
+    margin: "by 5 Wickets",
+    rebelsScore: "106/8 (100)",
+    opponentScore: "107/5 (94)",
+    scorecardUrl: "https://cricclubs.com/TorontoSuperCricketLeague/viewScorecard.do?matchId=1187&clubId=1003702",
+  },
+  {
+    id: 4,
+    opponent: "Scarborough Nepali Cricket Club",
+    date: "Jul 30, 2025",
+    result: "lost",
+    margin: "by 4 Wickets",
+    rebelsScore: "94/10 (88)",
+    opponentScore: "98/6 (80)",
+    scorecardUrl: "https://cricclubs.com/TorontoSuperCricketLeague/viewScorecard.do?matchId=1183&clubId=1003702",
+  },
+  {
+    id: 5,
+    opponent: "Toronto Rebels Cricket Club",
+    date: "Jul 9, 2025",
+    result: "abandoned",
+    margin: "Abandoned (D/L)",
+    rebelsScore: "121/7 (84)",
+    opponentScore: "23/2 (17)",
+    scorecardUrl: "https://cricclubs.com/TorontoSuperCricketLeague/viewScorecard.do?matchId=1178&clubId=1003702",
+  },
+  {
+    id: 6,
+    opponent: "Mailam Cricket Club",
+    date: "Jun 25, 2025",
+    result: "won",
+    margin: "by 4 Wickets",
+    rebelsScore: "129/6 (98)",
+    opponentScore: "128/8 (100)",
+    scorecardUrl: "https://cricclubs.com/TorontoSuperCricketLeague/viewScorecard.do?matchId=1174&clubId=1003702",
+  },
+  {
+    id: 7,
+    opponent: "CTS Toronto",
+    date: "Jun 11, 2025",
+    result: "lost",
+    margin: "by 167 Runs",
+    rebelsScore: "62/10 (97)",
+    opponentScore: "229/3 (100)",
+    scorecardUrl: "https://cricclubs.com/TorontoSuperCricketLeague/viewScorecard.do?matchId=1171&clubId=1003702",
+  },
+  {
+    id: 8,
+    opponent: "Victoria Park CC",
+    date: "May 28, 2025",
+    result: "abandoned",
+    margin: "Match Abandoned",
+    rebelsScore: "-",
+    opponentScore: "0/0 (0)",
+    scorecardUrl: "https://cricclubs.com/TorontoSuperCricketLeague/viewScorecard.do?matchId=1167&clubId=1003702",
+  },
+  {
+    id: 9,
+    opponent: "SD Strikers",
+    date: "May 21, 2025",
+    result: "abandoned",
+    margin: "Match Abandoned",
+    rebelsScore: "-",
+    opponentScore: "0/0 (0)",
+    scorecardUrl: "https://cricclubs.com/TorontoSuperCricketLeague/viewScorecard.do?matchId=1164&clubId=1003702",
+  },
+  {
+    id: 10,
+    opponent: "Durham Maple Leafs",
+    date: "May 7, 2025",
+    result: "lost",
+    margin: "by 66 Runs",
+    rebelsScore: "81/8 (95)",
+    opponentScore: "147/8 (100)",
+    scorecardUrl: "https://cricclubs.com/TorontoSuperCricketLeague/viewScorecard.do?matchId=1161&clubId=1003702",
+  },
+];
+
 const leagues: League[] = [
   {
     id: "lcl",
@@ -293,6 +397,15 @@ const leagues: League[] = [
     format: "T20",
     resultsUrl: "https://cricclubs.com/LakeshoreCricket/teamResults.do?teamId=1077&league=113&clubId=4063",
     matches: lclMatches,
+  },
+  {
+    id: "tscl",
+    name: "Toronto Super Cricket League",
+    shortName: "TSCL 100",
+    division: "The Hundred",
+    format: "100-Ball",
+    resultsUrl: "https://cricclubs.com/TorontoSuperCricketLeague/teamResults.do?teamId=257&clubId=1003702",
+    matches: tsclMatches,
   },
   {
     id: "tdca",
@@ -395,7 +508,7 @@ export const MatchesSection = () => {
 
         {/* League Tabs */}
         <Tabs value={activeLeague} onValueChange={setActiveLeague} className="w-full">
-          <TabsList className="grid w-full max-w-md mx-auto grid-cols-2 mb-6">
+          <TabsList className="grid w-full max-w-xl mx-auto grid-cols-3 mb-6">
             {leagues.map(league => (
               <TabsTrigger key={league.id} value={league.id} className="font-display">
                 {league.shortName}
