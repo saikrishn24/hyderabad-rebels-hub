@@ -1,20 +1,16 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
 
-import { Mail, MapPin, Send, Instagram, Youtube, Facebook, Twitter, UserPlus, Zap } from "lucide-react";
+ import { Mail, MapPin, Send, Instagram, UserPlus, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
 
-const socialLinks = [
-  { name: "Instagram", icon: Instagram, href: "https://www.instagram.com/hydrebels_cricketclub", color: "hover:text-pink-500" },
-  { name: "YouTube", icon: Youtube, href: "#", color: "hover:text-red-500" },
-  { name: "Facebook", icon: Facebook, href: "#", color: "hover:text-blue-500" },
-  { name: "Twitter", icon: Twitter, href: "#", color: "hover:text-sky-400" },
-];
+ const socialLinks = [
+   { name: "Instagram", icon: Instagram, href: "https://www.instagram.com/hydrebels_cricketclub", color: "hover:text-pink-500" },
+ ];
 
 const skills = [
   { id: "batting", label: "Batting" },
@@ -386,27 +382,45 @@ const Contact = () => {
                         Your Special Skills * (Select all that apply)
                       </label>
                       <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                        {skills.map((skill) => (
-                          <div
-                            key={skill.id}
-                            onClick={() => handleSkillToggle(skill.id)}
-                            className={`flex items-center gap-2 p-3 rounded-lg border cursor-pointer transition-all ${
-                              joinForm.selectedSkills.includes(skill.id)
-                                ? "bg-primary/10 border-primary/50 text-primary"
-                                : "bg-background border-border text-muted-foreground hover:border-primary/30"
-                            }`}
-                          >
-                            <Checkbox
-                              id={skill.id}
-                              checked={joinForm.selectedSkills.includes(skill.id)}
-                              onCheckedChange={() => handleSkillToggle(skill.id)}
-                              className="pointer-events-none"
-                            />
-                            <label htmlFor={skill.id} className="text-sm font-medium cursor-pointer">
-                              {skill.label}
-                            </label>
-                          </div>
-                        ))}
+                         {skills.map((skill) => {
+                           const isSelected = joinForm.selectedSkills.includes(skill.id);
+                           return (
+                             <div
+                               key={skill.id}
+                               role="button"
+                               tabIndex={0}
+                               onClick={() => handleSkillToggle(skill.id)}
+                               onKeyDown={(e) => {
+                                 if (e.key === 'Enter' || e.key === ' ') {
+                                   e.preventDefault();
+                                   handleSkillToggle(skill.id);
+                                 }
+                               }}
+                               className={`flex items-center gap-2 p-3 rounded-lg border cursor-pointer transition-all select-none ${
+                                 isSelected
+                                   ? "bg-primary/10 border-primary/50 text-primary"
+                                   : "bg-background border-border text-muted-foreground hover:border-primary/30"
+                               }`}
+                             >
+                               <div
+                                 className={`h-4 w-4 shrink-0 rounded-sm border flex items-center justify-center ${
+                                   isSelected
+                                     ? "bg-primary border-primary text-primary-foreground"
+                                     : "border-primary"
+                                 }`}
+                               >
+                                 {isSelected && (
+                                   <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                                     <polyline points="20 6 9 17 4 12" />
+                                   </svg>
+                                 )}
+                               </div>
+                               <span className="text-sm font-medium">
+                                 {skill.label}
+                               </span>
+                             </div>
+                           );
+                         })}
                       </div>
                     </div>
 
