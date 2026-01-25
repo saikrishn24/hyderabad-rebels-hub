@@ -89,9 +89,9 @@ export const HeroSection = () => {
           className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-6 max-w-3xl mx-auto"
         >
           {[
-            { value: "25+", label: "Matches Played" },
-            { value: "18", label: "Victories" },
-            { value: "2", label: "Championships" },
+            { value: "35", label: "Matches Played" },
+            { value: "11", label: "Victories" },
+            { value: "3", label: "Leagues" },
             { value: "22", label: "Team Members" },
           ].map((stat, index) => (
             <div key={index} className="text-center">
