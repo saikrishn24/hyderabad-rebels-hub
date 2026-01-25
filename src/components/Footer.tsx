@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
-import { Instagram, Youtube, Facebook, Twitter, Heart } from "lucide-react";
+import { Instagram, Heart } from "lucide-react";
+import hydRebelsLogo from "@/assets/hyd-rebels-logo.jpg";
 
 const quickLinks = [
   { name: "Home", href: "/" },
@@ -12,9 +13,6 @@ const quickLinks = [
 
 const socialLinks = [
   { name: "Instagram", icon: Instagram, href: "https://www.instagram.com/hydrebels_cricketclub" },
-  { name: "YouTube", icon: Youtube, href: "#" },
-  { name: "Facebook", icon: Facebook, href: "#" },
-  { name: "Twitter", icon: Twitter, href: "#" },
 ];
 
 export const Footer = () => {
@@ -25,9 +23,11 @@ export const Footer = () => {
           {/* Brand */}
           <div className="lg:col-span-2">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-12 h-12 rounded-full bg-primary flex items-center justify-center shadow-glow">
-                <span className="font-display text-xl font-bold text-primary-foreground">HR</span>
-              </div>
+              <img 
+                src={hydRebelsLogo} 
+                alt="HYD Rebels CC Logo" 
+                className="w-14 h-14 object-contain rounded-full border-2 border-primary/30"
+              />
               <div>
                 <h3 className="font-display text-xl font-bold text-foreground">HYDERABAD REBELS</h3>
                 <p className="text-xs text-primary font-semibold tracking-widest">CRICKET CLUB</p>
