@@ -33,6 +33,32 @@ const CRICCLUBS_TEAM_ID = "4371";
 const CRICCLUBS_CLUB_ID = "1809";
 const CRICCLUBS_BASE_URL = "https://cricclubs.com/TDCA";
 
+// Simple in-memory rate limiting (per instance)
+// Limits force refreshes to 1 per minute per IP
+const rateLimitMap = new Map<string, number>();
+const RATE_LIMIT_WINDOW_MS = 60 * 1000; // 1 minute
+
+function isRateLimited(clientIp: string): boolean {
+  const now = Date.now();
+  const lastRequest = rateLimitMap.get(clientIp);
+  
+  if (lastRequest && now - lastRequest < RATE_LIMIT_WINDOW_MS) {
+    return true;
+  }
+  
+  rateLimitMap.set(clientIp, now);
+  
+  // Clean up old entries (keep map small)
+  if (rateLimitMap.size > 100) {
+    const cutoff = now - RATE_LIMIT_WINDOW_MS;
+    for (const [ip, time] of rateLimitMap.entries()) {
+      if (time < cutoff) rateLimitMap.delete(ip);
+    }
+  }
+  
+  return false;
+}
+
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
@@ -46,8 +72,13 @@ Deno.serve(async (req) => {
     const url = new URL(req.url);
     const action = url.searchParams.get('action') || 'sync';
     const forceRefresh = url.searchParams.get('force') === 'true';
+    
+    // Get client IP for rate limiting
+    const clientIp = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 
+                     req.headers.get('cf-connecting-ip') || 
+                     'unknown';
 
-    console.log(`CricClubs sync action: ${action}, force: ${forceRefresh}`);
+    console.log(`CricClubs sync action: ${action}, force: ${forceRefresh}, ip: ${clientIp}`);
 
     // Check cache TTL
     const { data: cacheMeta } = await supabase
@@ -58,6 +89,19 @@ Deno.serve(async (req) => {
 
     const cacheValid = cacheMeta && 
       new Date(cacheMeta.last_fetched_at).getTime() + (cacheMeta.ttl_hours * 60 * 60 * 1000) > Date.now();
+
+    // Apply rate limiting only for force refresh requests
+    if (forceRefresh && isRateLimited(clientIp)) {
+      console.log(`Rate limited: ${clientIp}`);
+      return new Response(
+        JSON.stringify({ 
+          success: false, 
+          error: 'Rate limit exceeded. Please try again later.',
+          message: 'Force refresh is rate limited to prevent abuse.'
+        }),
+        { status: 429, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
 
     if (cacheValid && !forceRefresh) {
       console.log('Cache is still valid, returning cached data');
