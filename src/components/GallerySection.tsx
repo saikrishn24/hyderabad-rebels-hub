@@ -4,12 +4,12 @@ import { useRef, useState } from "react";
 import { X, ChevronLeft, ChevronRight, Camera } from "lucide-react";
 
 const galleryImages = [
-  { id: 1, category: "Match", title: "Championship Final 2023" },
-  { id: 2, category: "Practice", title: "Morning Training Session" },
-  { id: 3, category: "Celebration", title: "Victory Celebration" },
-  { id: 4, category: "Match", title: "Semi-Final Action" },
-  { id: 5, category: "Team", title: "Team Photo 2024" },
-  { id: 6, category: "Match", title: "Bowling Excellence" },
+  { id: 1, category: "Top Performer", title: "Aravind Reddy - 342 Runs", subtitle: "Season's Top Scorer" },
+  { id: 2, category: "Top Performer", title: "Vijay Mohan - 18 Wickets", subtitle: "Leading Wicket Taker" },
+  { id: 3, category: "Top Performer", title: "Karthik Srinivas - 298 Runs", subtitle: "Second Highest Scorer" },
+  { id: 4, category: "Match", title: "LCL Victory vs CANPR", subtitle: "Won by 96 Runs" },
+  { id: 5, category: "Team", title: "Team Photo 2025", subtitle: "Hyderabad Rebels Squad" },
+  { id: 6, category: "Top Performer", title: "Ravi Teja - 15 Wickets", subtitle: "Strike Bowler" },
 ];
 
 // Placeholder gradient backgrounds for gallery items
@@ -83,6 +83,9 @@ export const GallerySection = () => {
               <div className="absolute inset-0 bg-background/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center">
                 <p className="text-xs text-gold font-semibold tracking-wider mb-1">{image.category}</p>
                 <p className="font-display text-lg font-bold text-foreground text-center px-4">{image.title}</p>
+                {image.subtitle && (
+                  <p className="text-sm text-muted-foreground mt-1">{image.subtitle}</p>
+                )}
               </div>
             </motion.div>
           ))}

@@ -26,13 +26,26 @@ const values = [
   },
 ];
 
-const achievements = [
-  "Scarborough Cricket League Champions 2024",
-  "GTA Summer Cup Winners 2024",
-  "Best Team Award - Ontario Cricket Tournament 2024",
-  "Runners-up - Toronto Cricket Championship 2023",
-  "Fair Play Award 2023, 2024",
+// Top performers from 2025 Season across all leagues (TDCA, LCL, TSCL)
+const topScorers = [
+  { name: "Aravind Reddy", runs: 342, matches: 14, avg: 28.5 },
+  { name: "Karthik Srinivas", runs: 298, matches: 12, avg: 27.1 },
+  { name: "Prashanth Kumar", runs: 267, matches: 15, avg: 22.3 },
 ];
+
+const topBowlers = [
+  { name: "Vijay Mohan", wickets: 18, matches: 13, econ: 6.2 },
+  { name: "Ravi Teja", wickets: 15, matches: 14, econ: 7.1 },
+  { name: "Suresh Babu", wickets: 12, matches: 11, econ: 6.8 },
+];
+
+const seasonStats = {
+  matchesPlayed: 35,
+  wins: 11,
+  losses: 20,
+  abandoned: 4,
+  leagues: ["TDCA", "LCL", "TSCL"],
+};
 
 export const AboutSection = () => {
   const ref = useRef(null);
@@ -88,30 +101,106 @@ export const AboutSection = () => {
           ))}
         </div>
 
-        {/* Achievements */}
+        {/* Season Stats & Top Performers */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.6 }}
           className="bg-gradient-to-r from-primary/10 via-background to-primary/5 border border-border rounded-xl p-8"
         >
-          <h3 className="font-display text-2xl font-bold text-center mb-6 text-foreground">
+          <h3 className="font-display text-2xl font-bold text-center mb-8 text-foreground">
             <Trophy className="inline-block mr-2 h-6 w-6 text-primary" />
-            Our Achievements
+            2025 Season Highlights
           </h3>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {achievements.map((achievement, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, x: -20 }}
-                animate={isInView ? { opacity: 1, x: 0 } : {}}
-                transition={{ duration: 0.4, delay: 0.7 + index * 0.1 }}
-                className="flex items-center gap-3 bg-background/50 rounded-lg p-4"
-              >
-                <Star className="h-5 w-5 text-primary flex-shrink-0" />
-                <span className="text-sm text-foreground font-medium">{achievement}</span>
-              </motion.div>
-            ))}
+          
+          {/* Season Summary */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+            <div className="bg-background/50 rounded-lg p-4 text-center">
+              <p className="text-3xl font-display font-bold text-foreground">{seasonStats.matchesPlayed}</p>
+              <p className="text-xs text-muted-foreground">Matches Played</p>
+            </div>
+            <div className="bg-background/50 rounded-lg p-4 text-center">
+              <p className="text-3xl font-display font-bold text-green-400">{seasonStats.wins}</p>
+              <p className="text-xs text-muted-foreground">Victories</p>
+            </div>
+            <div className="bg-background/50 rounded-lg p-4 text-center">
+              <p className="text-3xl font-display font-bold text-red-400">{seasonStats.losses}</p>
+              <p className="text-xs text-muted-foreground">Losses</p>
+            </div>
+            <div className="bg-background/50 rounded-lg p-4 text-center">
+              <p className="text-3xl font-display font-bold text-gold">{seasonStats.leagues.length}</p>
+              <p className="text-xs text-muted-foreground">Leagues</p>
+            </div>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-8">
+            {/* Top Scorers */}
+            <div>
+              <h4 className="font-display text-lg font-bold mb-4 text-foreground flex items-center gap-2">
+                <Star className="h-5 w-5 text-gold" />
+                Top Run Scorers
+              </h4>
+              <div className="space-y-3">
+                {topScorers.map((player, index) => (
+                  <motion.div
+                    key={player.name}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={isInView ? { opacity: 1, x: 0 } : {}}
+                    transition={{ duration: 0.4, delay: 0.7 + index * 0.1 }}
+                    className="flex items-center justify-between bg-background/50 rounded-lg p-4"
+                  >
+                    <div className="flex items-center gap-3">
+                      <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${
+                        index === 0 ? "bg-gold text-background" : 
+                        index === 1 ? "bg-gray-300 text-background" : 
+                        "bg-amber-700 text-white"
+                      }`}>
+                        {index + 1}
+                      </span>
+                      <span className="font-medium text-foreground">{player.name}</span>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-lg font-bold text-gold">{player.runs}</p>
+                      <p className="text-xs text-muted-foreground">{player.matches} matches • Avg {player.avg}</p>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+
+            {/* Top Bowlers */}
+            <div>
+              <h4 className="font-display text-lg font-bold mb-4 text-foreground flex items-center gap-2">
+                <Target className="h-5 w-5 text-primary" />
+                Top Wicket Takers
+              </h4>
+              <div className="space-y-3">
+                {topBowlers.map((player, index) => (
+                  <motion.div
+                    key={player.name}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={isInView ? { opacity: 1, x: 0 } : {}}
+                    transition={{ duration: 0.4, delay: 0.7 + index * 0.1 }}
+                    className="flex items-center justify-between bg-background/50 rounded-lg p-4"
+                  >
+                    <div className="flex items-center gap-3">
+                      <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${
+                        index === 0 ? "bg-primary text-primary-foreground" : 
+                        index === 1 ? "bg-gray-300 text-background" : 
+                        "bg-amber-700 text-white"
+                      }`}>
+                        {index + 1}
+                      </span>
+                      <span className="font-medium text-foreground">{player.name}</span>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-lg font-bold text-primary">{player.wickets}</p>
+                      <p className="text-xs text-muted-foreground">{player.matches} matches • Econ {player.econ}</p>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
           </div>
         </motion.div>
       </div>
