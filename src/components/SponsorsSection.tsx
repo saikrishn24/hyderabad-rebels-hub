@@ -1,24 +1,13 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
-import { Handshake, Building2 } from "lucide-react";
+import { Handshake } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import staLogo from "@/assets/sponsors/sta-logo.jpeg";
 
 const sponsors = [
-  { name: "TechNova Solutions", tier: "Title Sponsor" },
-  { name: "Hyderabad Motors", tier: "Gold Sponsor" },
-  { name: "Green Valley Foods", tier: "Gold Sponsor" },
-  { name: "Metro Sports Gear", tier: "Silver Sponsor" },
-  { name: "City Hospital", tier: "Silver Sponsor" },
-  { name: "Deccan Airlines", tier: "Bronze Sponsor" },
+  { name: "Scarborough Telugu Association", tier: "Title Sponsor", logo: staLogo },
 ];
-
-const tierColors: Record<string, string> = {
-  "Title Sponsor": "border-gold bg-gold/10 text-gold",
-  "Gold Sponsor": "border-gold/50 bg-gold/5 text-gold",
-  "Silver Sponsor": "border-muted-foreground/50 bg-muted/20 text-muted-foreground",
-  "Bronze Sponsor": "border-primary/30 bg-primary/5 text-primary",
-};
 
 export const SponsorsSection = () => {
   const ref = useRef(null);
@@ -44,20 +33,20 @@ export const SponsorsSection = () => {
         </motion.div>
 
         {/* Sponsors Grid */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+        <div className="flex justify-center mb-12">
           {sponsors.map((sponsor, index) => (
             <motion.div
               key={sponsor.name}
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: 0.1 + index * 0.1 }}
-              className={`border rounded-xl p-8 text-center hover-lift ${tierColors[sponsor.tier]}`}
+              className="border border-gold bg-gold/10 rounded-xl p-8 text-center hover-lift max-w-md"
             >
-              <div className="w-16 h-16 rounded-full bg-background/50 flex items-center justify-center mx-auto mb-4">
-                <Building2 className="h-8 w-8" />
+              <div className="w-32 h-32 rounded-lg bg-white flex items-center justify-center mx-auto mb-4 overflow-hidden">
+                <img src={sponsor.logo} alt={sponsor.name} className="w-full h-full object-contain p-2" />
               </div>
               <h3 className="font-display text-xl font-bold text-foreground mb-2">{sponsor.name}</h3>
-              <span className="text-sm font-semibold">{sponsor.tier}</span>
+              <span className="text-sm font-semibold text-gold">{sponsor.tier}</span>
             </motion.div>
           ))}
         </div>
