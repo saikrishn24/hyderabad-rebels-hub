@@ -121,7 +121,7 @@ export const CricClubsSquadSection = () => {
             MEET THE <span className="text-gradient-orange">SQUAD</span>
           </h2>
           <p className="text-muted-foreground mt-4 max-w-xl mx-auto">
-            Our talented roster competing in the Toronto District Cricket Association.
+            Meet the talented players representing Hyderabad Rebels Cricket Club.
           </p>
           
           {/* Cache status */}
