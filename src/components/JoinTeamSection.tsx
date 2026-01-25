@@ -5,7 +5,7 @@ import { UserPlus, Send, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Checkbox } from "@/components/ui/checkbox";
+
 import { toast } from "sonner";
 
 const skills = [
@@ -195,24 +195,40 @@ export const JoinTeamSection = () => {
                 {skills.map((skill) => {
                   const isSelected = formData.selectedSkills.includes(skill.id);
                   return (
-                    <label
+                    <div
                       key={skill.id}
-                      htmlFor={`skill-${skill.id}`}
+                      role="button"
+                      tabIndex={0}
+                      onClick={() => handleSkillToggle(skill.id)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          e.preventDefault();
+                          handleSkillToggle(skill.id);
+                        }
+                      }}
                       className={`flex items-center gap-2 p-3 rounded-lg border cursor-pointer transition-all select-none ${
                         isSelected
                           ? "bg-primary/10 border-primary/50 text-primary"
                           : "bg-background border-border text-muted-foreground hover:border-primary/30"
                       }`}
                     >
-                      <Checkbox
-                        id={`skill-${skill.id}`}
-                        checked={isSelected}
-                        onCheckedChange={() => handleSkillToggle(skill.id)}
-                      />
+                      <div
+                        className={`h-4 w-4 shrink-0 rounded-sm border flex items-center justify-center ${
+                          isSelected
+                            ? "bg-primary border-primary text-primary-foreground"
+                            : "border-primary"
+                        }`}
+                      >
+                        {isSelected && (
+                          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                            <polyline points="20 6 9 17 4 12" />
+                          </svg>
+                        )}
+                      </div>
                       <span className="text-sm font-medium">
                         {skill.label}
                       </span>
-                    </label>
+                    </div>
                   );
                 })}
               </div>
