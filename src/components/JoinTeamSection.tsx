@@ -192,27 +192,29 @@ export const JoinTeamSection = () => {
                 Your Special Skills * (Select all that apply)
               </label>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                {skills.map((skill) => (
-                  <div
-                    key={skill.id}
-                    onClick={() => handleSkillToggle(skill.id)}
-                    className={`flex items-center gap-2 p-3 rounded-lg border cursor-pointer transition-all ${
-                      formData.selectedSkills.includes(skill.id)
-                        ? "bg-primary/10 border-primary/50 text-primary"
-                        : "bg-background border-border text-muted-foreground hover:border-primary/30"
-                    }`}
-                  >
-                    <Checkbox
-                      id={skill.id}
-                      checked={formData.selectedSkills.includes(skill.id)}
-                      onCheckedChange={() => handleSkillToggle(skill.id)}
-                      className="pointer-events-none"
-                    />
-                    <label htmlFor={skill.id} className="text-sm font-medium cursor-pointer">
-                      {skill.label}
+                {skills.map((skill) => {
+                  const isSelected = formData.selectedSkills.includes(skill.id);
+                  return (
+                    <label
+                      key={skill.id}
+                      htmlFor={`skill-${skill.id}`}
+                      className={`flex items-center gap-2 p-3 rounded-lg border cursor-pointer transition-all select-none ${
+                        isSelected
+                          ? "bg-primary/10 border-primary/50 text-primary"
+                          : "bg-background border-border text-muted-foreground hover:border-primary/30"
+                      }`}
+                    >
+                      <Checkbox
+                        id={`skill-${skill.id}`}
+                        checked={isSelected}
+                        onCheckedChange={() => handleSkillToggle(skill.id)}
+                      />
+                      <span className="text-sm font-medium">
+                        {skill.label}
+                      </span>
                     </label>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
 
