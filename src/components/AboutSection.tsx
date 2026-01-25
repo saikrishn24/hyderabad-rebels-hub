@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
-import { Target, Users, Trophy, Star } from "lucide-react";
+import { Target, Users, Trophy, Star, Award, TrendingUp, Medal } from "lucide-react";
 
 const values = [
   {
@@ -33,6 +33,33 @@ const seasonStats = {
   abandoned: 4,
   leagues: ["TDCA", "LCL", "TSCL"],
 };
+
+const achievements = [
+  {
+    icon: Medal,
+    title: "LCL Semi-Finalists",
+    description: "Reached the Semi-Finals in Lakeshore Cricket League T20 1st Division",
+    highlight: true,
+  },
+  {
+    icon: TrendingUp,
+    title: "3rd in Points Table",
+    description: "Finished 3rd in the LCL T20 league standings",
+    highlight: true,
+  },
+  {
+    icon: Award,
+    title: "Top Performances",
+    description: "Multiple match-winning performances across all three leagues",
+    highlight: false,
+  },
+  {
+    icon: Trophy,
+    title: "3 League Debut",
+    description: "Successfully competed in TDCA, LCL, and TSCL in our debut season",
+    highlight: false,
+  },
+];
 
 export const AboutSection = () => {
   const ref = useRef(null);
@@ -93,11 +120,11 @@ export const AboutSection = () => {
           initial={{ opacity: 0, y: 40 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.6 }}
-          className="bg-gradient-to-r from-primary/10 via-background to-primary/5 border border-border rounded-xl p-8"
+          className="bg-gradient-to-r from-primary/10 via-background to-primary/5 border border-border rounded-xl p-8 mb-12"
         >
           <h3 className="font-display text-2xl font-bold text-center mb-8 text-foreground">
             <Trophy className="inline-block mr-2 h-6 w-6 text-primary" />
-            2025 Season Highlights
+            2025 Season Summary
           </h3>
           
           {/* Season Summary */}
@@ -118,6 +145,52 @@ export const AboutSection = () => {
               <p className="text-3xl font-display font-bold text-gold">{seasonStats.leagues.length}</p>
               <p className="text-xs text-muted-foreground">Leagues</p>
             </div>
+          </div>
+        </motion.div>
+
+        {/* Achievements Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.7 }}
+        >
+          <h3 className="font-display text-2xl font-bold text-center mb-8 text-foreground">
+            <Award className="inline-block mr-2 h-6 w-6 text-gold" />
+            Our <span className="text-gradient-gold">Achievements</span>
+          </h3>
+          
+          <div className="grid md:grid-cols-2 gap-6">
+            {achievements.map((achievement, index) => (
+              <motion.div
+                key={achievement.title}
+                initial={{ opacity: 0, y: 20 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.5, delay: 0.8 + index * 0.1 }}
+                className={`bg-background border rounded-lg p-6 hover-lift ${
+                  achievement.highlight
+                    ? "border-gold/40 bg-gradient-to-br from-gold/5 to-transparent"
+                    : "border-border"
+                }`}
+              >
+                <div className="flex items-start gap-4">
+                  <div className={`w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 ${
+                    achievement.highlight
+                      ? "bg-gold/10 border border-gold/30"
+                      : "bg-primary/10 border border-primary/30"
+                  }`}>
+                    <achievement.icon className={`h-6 w-6 ${
+                      achievement.highlight ? "text-gold" : "text-primary"
+                    }`} />
+                  </div>
+                  <div>
+                    <h4 className="font-display text-lg font-bold text-foreground mb-1">
+                      {achievement.title}
+                    </h4>
+                    <p className="text-sm text-muted-foreground">{achievement.description}</p>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
           </div>
         </motion.div>
       </div>
