@@ -1,25 +1,23 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef, useState } from "react";
-import { X, ChevronLeft, ChevronRight, Camera } from "lucide-react";
+import { X, ChevronLeft, ChevronRight } from "lucide-react";
+
+// Import gallery images
+import starPerformers1 from "@/assets/gallery/star-performers-1.jpeg";
+import starPerformers2 from "@/assets/gallery/star-performers-2.jpeg";
+import starPerformers3 from "@/assets/gallery/star-performers-3.jpeg";
+import starPerformers4 from "@/assets/gallery/star-performers-4.jpeg";
+import starPerformers5 from "@/assets/gallery/star-performers-5.jpeg";
+import teamPhoto from "@/assets/gallery/team-photo.jpeg";
 
 const galleryImages = [
-  { id: 1, category: "Top Performer", title: "Aravind Reddy - 342 Runs", subtitle: "Season's Top Scorer" },
-  { id: 2, category: "Top Performer", title: "Vijay Mohan - 18 Wickets", subtitle: "Leading Wicket Taker" },
-  { id: 3, category: "Top Performer", title: "Karthik Srinivas - 298 Runs", subtitle: "Second Highest Scorer" },
-  { id: 4, category: "Match", title: "LCL Victory vs CANPR", subtitle: "Won by 96 Runs" },
-  { id: 5, category: "Team", title: "Team Photo 2025", subtitle: "Hyderabad Rebels Squad" },
-  { id: 6, category: "Top Performer", title: "Ravi Teja - 15 Wickets", subtitle: "Strike Bowler" },
-];
-
-// Placeholder gradient backgrounds for gallery items
-const gradients = [
-  "from-primary/30 to-gold/20",
-  "from-gold/30 to-primary/20",
-  "from-green-500/30 to-primary/20",
-  "from-primary/20 to-blue-500/30",
-  "from-gold/20 to-green-500/30",
-  "from-blue-500/20 to-primary/30",
+  { id: 1, src: teamPhoto, category: "Team", title: "Team Photo 2025", subtitle: "Hyderabad Rebels Squad" },
+  { id: 2, src: starPerformers1, category: "Star Performers", title: "Vamshi & Sandeep", subtitle: "Match Day Heroes" },
+  { id: 3, src: starPerformers2, category: "Star Performers", title: "Sai Krishna & Aravind", subtitle: "LCL T20 Summer 2025" },
+  { id: 4, src: starPerformers3, category: "Star Performers", title: "Sanjeevi & Siddu", subtitle: "LCL T20 Summer 2025" },
+  { id: 5, src: starPerformers4, category: "Star Performers", title: "Siddu & Abhi", subtitle: "TDCA League Match" },
+  { id: 6, src: starPerformers5, category: "Star Performers", title: "Bhanu, Sai Krishna & Avinash", subtitle: "LCL T20 Summer 2025" },
 ];
 
 export const GallerySection = () => {
@@ -71,18 +69,20 @@ export const GallerySection = () => {
                 index === 0 ? "md:col-span-2 md:row-span-2" : ""
               }`}
             >
-              {/* Placeholder gradient background */}
-              <div className={`absolute inset-0 bg-gradient-to-br ${gradients[index % gradients.length]}`} />
-              
-              {/* Icon */}
-              <div className="absolute inset-0 flex items-center justify-center">
-                <Camera className="h-12 w-12 text-foreground/30" />
-              </div>
+              {/* Image */}
+              <img 
+                src={image.src} 
+                alt={image.title}
+                className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+              />
 
-              {/* Hover Overlay */}
-              <div className="absolute inset-0 bg-background/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center">
+              {/* Overlay gradient */}
+              <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+              {/* Hover Content */}
+              <div className="absolute inset-0 flex flex-col items-center justify-end p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 <p className="text-xs text-gold font-semibold tracking-wider mb-1">{image.category}</p>
-                <p className="font-display text-lg font-bold text-foreground text-center px-4">{image.title}</p>
+                <p className="font-display text-lg font-bold text-foreground text-center">{image.title}</p>
                 {image.subtitle && (
                   <p className="text-sm text-muted-foreground mt-1">{image.subtitle}</p>
                 )}
@@ -131,12 +131,17 @@ export const GallerySection = () => {
             </button>
 
             <div className="max-w-4xl w-full" onClick={(e) => e.stopPropagation()}>
-              <div className={`aspect-video rounded-xl bg-gradient-to-br ${gradients[selectedImage % gradients.length]} flex items-center justify-center`}>
-                <Camera className="h-24 w-24 text-foreground/30" />
-              </div>
+              <img 
+                src={galleryImages[selectedImage].src} 
+                alt={galleryImages[selectedImage].title}
+                className="w-full max-h-[70vh] object-contain rounded-xl"
+              />
               <div className="text-center mt-6">
                 <p className="text-gold font-semibold tracking-wider mb-1">{galleryImages[selectedImage].category}</p>
                 <p className="font-display text-2xl font-bold text-foreground">{galleryImages[selectedImage].title}</p>
+                {galleryImages[selectedImage].subtitle && (
+                  <p className="text-muted-foreground mt-1">{galleryImages[selectedImage].subtitle}</p>
+                )}
               </div>
             </div>
           </motion.div>

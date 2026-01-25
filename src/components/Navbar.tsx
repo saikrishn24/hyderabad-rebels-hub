@@ -56,9 +56,11 @@ export const Navbar = () => {
 
         {/* CTA Button */}
         <div className="hidden lg:block">
-          <Button variant="default" className="font-display tracking-wide">
-            JOIN THE TEAM
-          </Button>
+          <a href="#contact">
+            <Button variant="default" className="font-display tracking-wide">
+              JOIN THE TEAM
+            </Button>
+          </a>
         </div>
 
         {/* Mobile Menu Toggle */}
@@ -94,9 +96,11 @@ export const Navbar = () => {
                   {link.name}
                 </motion.a>
               ))}
-              <Button variant="default" className="font-display tracking-wide mt-2">
-                JOIN THE TEAM
-              </Button>
+              <a href="#contact" onClick={() => setIsOpen(false)}>
+                <Button variant="default" className="font-display tracking-wide mt-2 w-full">
+                  JOIN THE TEAM
+                </Button>
+              </a>
             </div>
           </motion.div>
         )}
