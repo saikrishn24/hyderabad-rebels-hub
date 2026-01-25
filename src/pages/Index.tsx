@@ -1,7 +1,7 @@
 import { Navbar } from "@/components/Navbar";
 import { HeroSection } from "@/components/HeroSection";
 import { AboutSection } from "@/components/AboutSection";
-import { SquadSection } from "@/components/SquadSection";
+import { CricClubsSquadSection } from "@/components/CricClubsSquadSection";
 import { MatchesSection } from "@/components/MatchesSection";
 import { GallerySection } from "@/components/GallerySection";
 import { SponsorsSection } from "@/components/SponsorsSection";
@@ -14,7 +14,7 @@ const Index = () => {
       <Navbar />
       <HeroSection />
       <AboutSection />
-      <SquadSection />
+      <CricClubsSquadSection />
       <MatchesSection />
       <GallerySection />
       <SponsorsSection />
