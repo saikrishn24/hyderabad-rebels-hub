@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import heroBg from "@/assets/hero-bg.jpg";
 import hydRebelsLogo from "@/assets/hyd-rebels-logo.jpg";
+import staLogo from "@/assets/sponsors/sta-logo.jpeg";
 
 const quickStats = [
   { value: "35", label: "Matches Played" },
@@ -225,6 +226,54 @@ const Home = () => {
                 </Button>
               </Link>
             </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Proud Sponsors Section */}
+      <section className="py-20 bg-card">
+        <div className="container mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-12"
+          >
+            <span className="text-gold font-semibold tracking-widest text-sm">OUR PARTNERS</span>
+            <h2 className="font-display text-3xl md:text-4xl font-bold mt-2 text-foreground">
+              PROUD <span className="text-gradient-gold">SPONSORS</span>
+            </h2>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="flex justify-center"
+          >
+            <div className="border border-gold bg-gold/10 rounded-xl p-8 text-center hover:scale-105 transition-transform max-w-sm">
+              <div className="w-32 h-32 rounded-lg bg-white flex items-center justify-center mx-auto mb-4 overflow-hidden">
+                <img src={staLogo} alt="Scarborough Telugu Association" className="w-full h-full object-contain p-2" />
+              </div>
+              <h3 className="font-display text-xl font-bold text-foreground mb-2">Scarborough Telugu Association</h3>
+              <span className="text-sm font-semibold text-gold">Title Sponsor</span>
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="text-center mt-8"
+          >
+            <Link to="/sponsors">
+              <Button variant="outline" className="font-display border-gold/50 text-gold hover:bg-gold/10">
+                Become a Sponsor
+              </Button>
+            </Link>
           </motion.div>
         </div>
       </section>
