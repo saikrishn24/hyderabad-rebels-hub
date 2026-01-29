@@ -310,13 +310,13 @@ function parsePlayers(html: string): Player[] {
     '3552731': { name: 'Sanjeevi Jayaraj', role: 'All Rounder', photoUrl: 'https://media.cricclubs.com/documentsRep/profilePics/e94bcc3b-9c33-4bc0-ba9f-567db2d6f233.jpeg' },
     '3029225': { name: 'Sannihith Reddy', role: 'All Rounder', photoUrl: 'https://media.cricclubs.com/documentsRep/profilePics/default_male_profilePic.png' },
     '5109893': { name: 'Shrinivas Nirati', role: 'All Rounder', photoUrl: 'https://media.cricclubs.com/documentsRep/profilePics/3368a43b-5b53-450d-b600-650183b9c0a8.png' },
-    '4660896': { name: 'Siddhartha Jandyala', role: 'All Rounder', photoUrl: 'https://media.cricclubs.com/documentsRep/profilePics/952ffad5-9f81-4992-af8a-c65311c2298e.jpeg' },
+    '4660896': { name: 'Siddhartha Jandyala', role: 'Batsmen', photoUrl: 'https://media.cricclubs.com/documentsRep/profilePics/952ffad5-9f81-4992-af8a-c65311c2298e.jpeg' },
     '5031269': { name: 'Sunny Jasti', role: 'All Rounder', photoUrl: 'https://media.cricclubs.com/documentsRep/profilePics/deb601ab-0dc6-42b7-938d-5b65389e1dc9.png' },
     '3486203': { name: 'Sushanth Duppelli', role: 'All Rounder', photoUrl: 'https://media.cricclubs.com/documentsRep/profilePics/f9cba240-56d6-4be2-b729-a3f6b5e75003.jpeg' },
     '3368194': { name: 'Tony K', role: 'Batter', photoUrl: 'https://media.cricclubs.com/documentsRep/profilePics/ce9e0307-3b7a-4ae6-a2e7-f7a0888c1318.jpeg' },
-    '4660894': { name: 'Vamsi Nadella', role: 'All Rounder', photoUrl: 'https://media.cricclubs.com/documentsRep/profilePics/0a37f742-e3e4-4e0f-8521-ed9463373277.png' },
-    '6097971': { name: 'Varun Mannem', role: 'All Rounder', photoUrl: 'https://media.cricclubs.com/documentsRep/profilePics/default_male_profilePic.png' },
-    '4660893': { name: 'Vijay Rama Raju Kunaparaju', role: 'All Rounder', photoUrl: 'https://media.cricclubs.com/documentsRep/profilePics/2f94c00d-3fd8-468b-9946-b45ac7030384.png' },
+    '4660894': { name: 'Vamsi Nadella', role: 'Batsmen', photoUrl: 'https://media.cricclubs.com/documentsRep/profilePics/0a37f742-e3e4-4e0f-8521-ed9463373277.png' },
+    '6097971': { name: 'Varun Mannem', role: 'Bowler', photoUrl: 'https://media.cricclubs.com/documentsRep/profilePics/default_male_profilePic.png' },
+    '4660893': { name: 'Vijay Rama Raju Kunaparaju', role: 'Bowler', photoUrl: 'https://media.cricclubs.com/documentsRep/profilePics/2f94c00d-3fd8-468b-9946-b45ac7030384.png' },
     '3368196': { name: 'Vishnu Reddy G', role: 'All Rounder', photoUrl: 'https://media.cricclubs.com/documentsRep/profilePics/default_male_profilePic.png' },
   };
 
