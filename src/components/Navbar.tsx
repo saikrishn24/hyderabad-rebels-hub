@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
@@ -24,6 +24,18 @@ export const Navbar = () => {
     return location.pathname.startsWith(href);
   };
 
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isOpen]);
+
   return (
     <motion.nav
       initial={{ y: -100 }}
@@ -37,7 +49,7 @@ export const Navbar = () => {
           <img 
             src={hydRebelsLogo} 
             alt="HYD Rebels CC Logo" 
-            className="w-12 h-12 md:w-14 md:h-14 object-contain"
+            className="w-12 h-12 md:w-14 md:h-14 rounded-full object-cover"
           />
           <div className="hidden sm:block">
             <h1 className="font-display text-lg md:text-xl font-bold text-foreground leading-tight">
@@ -84,47 +96,57 @@ export const Navbar = () => {
           className="lg:hidden p-2 text-foreground"
           aria-label="Toggle menu"
         >
-          {isOpen ? <X size={24} /> : <Menu size={24} />}
+          {isOpen ? <X size={24} strokeWidth={2} /> : <Menu size={24} strokeWidth={2} />}
         </button>
       </div>
 
       {/* Mobile Menu */}
       <AnimatePresence>
         {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            className="lg:hidden bg-background border-b border-border overflow-hidden"
-          >
-            <div className="container mx-auto py-4 px-4 flex flex-col gap-4">
-              {navLinks.map((link, index) => (
-                <motion.div
-                  key={link.name}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: index * 0.05 }}
-                >
-                  <Link
-                    to={link.href}
-                    onClick={() => setIsOpen(false)}
-                    className={`font-display text-lg block py-2 border-b border-border/50 transition-colors ${
-                      isActive(link.href)
-                        ? "text-primary"
-                        : "text-foreground hover:text-primary"
-                    }`}
+          <>
+            {/* Backdrop - click to close */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 top-16 bg-black/50 z-40 lg:hidden"
+              onClick={() => setIsOpen(false)}
+            />
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              className="lg:hidden bg-background border-b border-border overflow-hidden relative z-50"
+            >
+              <div className="container mx-auto py-4 px-4 flex flex-col gap-4">
+                {navLinks.map((link, index) => (
+                  <motion.div
+                    key={link.name}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: index * 0.05 }}
                   >
-                    {link.name}
-                  </Link>
-                </motion.div>
-              ))}
-              <Link to="/contact" onClick={() => setIsOpen(false)}>
-                <Button variant="default" className="font-display tracking-wide mt-2 w-full">
-                  JOIN THE TEAM
-                </Button>
-              </Link>
-            </div>
-          </motion.div>
+                    <Link
+                      to={link.href}
+                      onClick={() => setIsOpen(false)}
+                      className={`font-display text-lg block py-2 border-b border-border/50 transition-colors ${
+                        isActive(link.href)
+                          ? "text-primary"
+                          : "text-foreground hover:text-primary"
+                      }`}
+                    >
+                      {link.name}
+                    </Link>
+                  </motion.div>
+                ))}
+                <Link to="/contact" onClick={() => setIsOpen(false)}>
+                  <Button variant="default" className="font-display tracking-wide mt-2 w-full">
+                    JOIN THE TEAM
+                  </Button>
+                </Link>
+              </div>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
     </motion.nav>

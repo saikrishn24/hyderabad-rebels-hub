@@ -26,7 +26,7 @@ export const Footer = () => {
               <img 
                 src={hydRebelsLogo} 
                 alt="HYD Rebels CC Logo" 
-                className="w-14 h-14 object-contain rounded-full border-2 border-primary/30"
+                className="w-14 h-14 object-cover rounded-full border-2 border-primary/30"
               />
               <div>
                 <h3 className="font-display text-xl font-bold text-foreground">HYDERABAD REBELS</h3>

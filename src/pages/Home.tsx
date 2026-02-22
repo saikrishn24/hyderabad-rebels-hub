@@ -79,7 +79,7 @@ const Home = () => {
             <img 
               src={hydRebelsLogo} 
               alt="HYD Rebels CC Logo" 
-              className="w-32 h-32 md:w-40 md:h-40 object-contain mx-auto rounded-full border-4 border-primary/30 shadow-glow"
+              className="w-32 h-32 md:w-40 md:h-40 object-cover mx-auto rounded-full border-4 border-primary/30 shadow-glow"
             />
           </motion.div>
 
