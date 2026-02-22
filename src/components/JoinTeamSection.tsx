@@ -5,8 +5,8 @@ import { UserPlus, Send, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-
 import { toast } from "sonner";
+import { sanitizePhone, isValidPhone, MAX_MESSAGE_LENGTH } from "@/lib/validation";
 
 const skills = [
   { id: "batting", label: "Batting" },
@@ -46,6 +46,16 @@ export const JoinTeamSection = () => {
       return;
     }
 
+    if (!isValidPhone(formData.phone)) {
+      toast.error("Please enter a valid phone number (7+ digits, max 12 characters)");
+      return;
+    }
+
+    if (formData.message.length > MAX_MESSAGE_LENGTH) {
+      toast.error(`Description must be ${MAX_MESSAGE_LENGTH} characters or fewer`);
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {
@@ -60,14 +70,7 @@ export const JoinTeamSection = () => {
       window.open(`mailto:rebels.hyd@gmail.com?subject=${subject}&body=${body}`, "_blank");
 
       toast.success("Opening email client... You can also DM us on Instagram @hydrebels_cricketclub!");
-      setFormData({
-        name: "",
-        email: "",
-        phone: "",
-        experience: "",
-        selectedSkills: [],
-        message: "",
-      });
+      setFormData({ name: "", email: "", phone: "", experience: "", selectedSkills: [], message: "" });
     } catch (error) {
       toast.error("Something went wrong. Please email us directly at rebels.hyd@gmail.com");
     } finally {
@@ -106,10 +109,7 @@ export const JoinTeamSection = () => {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="max-w-2xl mx-auto"
         >
-          <form
-            onSubmit={handleSubmit}
-            className="bg-card border border-border rounded-xl p-6 md:p-8"
-          >
+          <form onSubmit={handleSubmit} className="bg-card border border-border rounded-xl p-6 md:p-8">
             <div className="flex items-center gap-3 mb-6">
               <div className="w-12 h-12 rounded-full bg-primary/10 border border-primary/30 flex items-center justify-center">
                 <UserPlus className="h-6 w-6 text-primary" />
@@ -124,63 +124,35 @@ export const JoinTeamSection = () => {
             <div className="space-y-4 mb-6">
               <div className="grid sm:grid-cols-2 gap-4">
                 <div>
-                  <label htmlFor="join-name" className="text-sm text-muted-foreground mb-2 block">
-                    Full Name *
-                  </label>
-                  <Input
-                    id="join-name"
-                    type="text"
-                    placeholder="Your full name"
-                    value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    required
-                    className="bg-background border-border"
-                  />
+                  <label htmlFor="join-name" className="text-sm text-muted-foreground mb-2 block">Full Name *</label>
+                  <Input id="join-name" type="text" placeholder="Your full name" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} required className="bg-background border-border" />
                 </div>
                 <div>
-                  <label htmlFor="join-email" className="text-sm text-muted-foreground mb-2 block">
-                    Email Address *
-                  </label>
-                  <Input
-                    id="join-email"
-                    type="email"
-                    placeholder="your@email.com"
-                    value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    required
-                    className="bg-background border-border"
-                  />
+                  <label htmlFor="join-email" className="text-sm text-muted-foreground mb-2 block">Email Address *</label>
+                  <Input id="join-email" type="email" placeholder="your@email.com" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} required className="bg-background border-border" />
                 </div>
               </div>
 
               <div className="grid sm:grid-cols-2 gap-4">
                 <div>
-                  <label htmlFor="join-phone" className="text-sm text-muted-foreground mb-2 block">
-                    Phone Number *
-                  </label>
+                  <label htmlFor="join-phone" className="text-sm text-muted-foreground mb-2 block">Phone Number *</label>
                   <Input
                     id="join-phone"
                     type="tel"
                     placeholder="+1 (XXX) XXX-XXXX"
                     value={formData.phone}
-                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                    onChange={(e) => setFormData({ ...formData, phone: sanitizePhone(e.target.value) })}
+                    maxLength={12}
                     required
                     className="bg-background border-border"
                   />
+                  {formData.phone && !isValidPhone(formData.phone) && (
+                    <p className="text-xs text-destructive mt-1">Enter a valid phone (digits, +, -, spaces only; max 12 chars)</p>
+                  )}
                 </div>
                 <div>
-                  <label htmlFor="join-experience" className="text-sm text-muted-foreground mb-2 block">
-                    Playing Experience *
-                  </label>
-                  <Input
-                    id="join-experience"
-                    type="text"
-                    placeholder="e.g., 5 years, Club level"
-                    value={formData.experience}
-                    onChange={(e) => setFormData({ ...formData, experience: e.target.value })}
-                    required
-                    className="bg-background border-border"
-                  />
+                  <label htmlFor="join-experience" className="text-sm text-muted-foreground mb-2 block">Playing Experience *</label>
+                  <Input id="join-experience" type="text" placeholder="e.g., 5 years, Club level" value={formData.experience} onChange={(e) => setFormData({ ...formData, experience: e.target.value })} required className="bg-background border-border" />
                 </div>
               </div>
             </div>
@@ -225,9 +197,7 @@ export const JoinTeamSection = () => {
                           </svg>
                         )}
                       </div>
-                      <span className="text-sm font-medium">
-                        {skill.label}
-                      </span>
+                      <span className="text-sm font-medium">{skill.label}</span>
                     </div>
                   );
                 })}
@@ -236,43 +206,31 @@ export const JoinTeamSection = () => {
 
             {/* Additional Message */}
             <div className="mb-6">
-              <label htmlFor="join-message" className="text-sm text-muted-foreground mb-2 block">
-                Tell us more about yourself (optional)
-              </label>
+              <div className="flex items-center justify-between mb-2">
+                <label htmlFor="join-message" className="text-sm text-muted-foreground">Tell us more about yourself (optional)</label>
+                <span className={`text-xs ${formData.message.length > MAX_MESSAGE_LENGTH ? "text-destructive" : "text-muted-foreground"}`}>
+                  {formData.message.length}/{MAX_MESSAGE_LENGTH}
+                </span>
+              </div>
               <Textarea
                 id="join-message"
                 placeholder="Share your cricket journey, achievements, or anything else you'd like us to know..."
                 value={formData.message}
-                onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                onChange={(e) => setFormData({ ...formData, message: e.target.value.slice(0, MAX_MESSAGE_LENGTH + 50) })}
                 rows={4}
                 className="bg-background border-border resize-none"
               />
+              {formData.message.length > MAX_MESSAGE_LENGTH && (
+                <p className="text-xs text-destructive mt-1">Description exceeds {MAX_MESSAGE_LENGTH} characters</p>
+              )}
             </div>
 
             {/* Submit Buttons */}
             <div className="flex flex-col sm:flex-row gap-3">
-              <Button
-                type="submit"
-                size="lg"
-                className="flex-1 font-display tracking-wide shadow-glow"
-                disabled={isSubmitting}
-              >
-                {isSubmitting ? (
-                  "Sending..."
-                ) : (
-                  <>
-                    <Send className="mr-2 h-5 w-5" />
-                    Submit Application
-                  </>
-                )}
+              <Button type="submit" size="lg" className="flex-1 font-display tracking-wide shadow-glow min-h-[44px]" disabled={isSubmitting}>
+                {isSubmitting ? "Sending..." : (<><Send className="mr-2 h-5 w-5" />Submit Application</>)}
               </Button>
-              <Button
-                type="button"
-                variant="outline"
-                size="lg"
-                onClick={openInstagramDM}
-                className="flex-1 font-display tracking-wide border-primary/50 hover:bg-primary/10"
-              >
+              <Button type="button" variant="outline" size="lg" onClick={openInstagramDM} className="flex-1 font-display tracking-wide border-primary/50 hover:bg-primary/10 min-h-[44px]">
                 DM on Instagram
               </Button>
             </div>

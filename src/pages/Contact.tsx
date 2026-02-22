@@ -1,16 +1,16 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
-
- import { Mail, MapPin, Send, Instagram, UserPlus, Zap } from "lucide-react";
+import { Mail, MapPin, Send, Instagram, UserPlus, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
+import { sanitizePhone, isValidPhone, MAX_MESSAGE_LENGTH } from "@/lib/validation";
 
- const socialLinks = [
-   { name: "Instagram", icon: Instagram, href: "https://www.instagram.com/hydrebels_cricketclub", color: "hover:text-pink-500" },
- ];
+const socialLinks = [
+  { name: "Instagram", icon: Instagram, href: "https://www.instagram.com/hydrebels_cricketclub", color: "hover:text-pink-500" },
+];
 
 const skills = [
   { id: "batting", label: "Batting" },
@@ -35,6 +35,12 @@ const Contact = () => {
 
   const handleContactSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (contactForm.message.length > MAX_MESSAGE_LENGTH) {
+      toast.error(`Message must be ${MAX_MESSAGE_LENGTH} characters or fewer`);
+      return;
+    }
+
     setIsContactSubmitting(true);
 
     try {
@@ -43,7 +49,6 @@ const Contact = () => {
         `Name: ${contactForm.name}\nEmail: ${contactForm.email}\n\nMessage:\n${contactForm.message}`
       );
       window.open(`mailto:rebels.hyd@gmail.com?subject=${subject}&body=${body}`, '_blank');
-
       toast.success("Opening email client... You can also DM us on Instagram @hydrebels_cricketclub!");
       setContactForm({ name: "", email: "", subject: "", message: "" });
     } catch {
@@ -64,9 +69,19 @@ const Contact = () => {
 
   const handleJoinSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (joinForm.selectedSkills.length === 0) {
       toast.error("Please select at least one skill");
+      return;
+    }
+
+    if (!isValidPhone(joinForm.phone)) {
+      toast.error("Please enter a valid phone number (7+ digits, max 12 characters)");
+      return;
+    }
+
+    if (joinForm.message.length > MAX_MESSAGE_LENGTH) {
+      toast.error(`Description must be ${MAX_MESSAGE_LENGTH} characters or fewer`);
       return;
     }
 
@@ -82,16 +97,8 @@ const Contact = () => {
         `=== JOIN THE TEAM REQUEST ===\n\nName: ${joinForm.name}\nEmail: ${joinForm.email}\nPhone: ${joinForm.phone}\nPlaying Experience: ${joinForm.experience}\n\nSpecial Skills: ${skillLabels}\n\nAdditional Message:\n${joinForm.message}`
       );
       window.open(`mailto:rebels.hyd@gmail.com?subject=${subject}&body=${body}`, "_blank");
-
       toast.success("Opening email client... You can also DM us on Instagram @hydrebels_cricketclub!");
-      setJoinForm({
-        name: "",
-        email: "",
-        phone: "",
-        experience: "",
-        selectedSkills: [],
-        message: "",
-      });
+      setJoinForm({ name: "", email: "", phone: "", experience: "", selectedSkills: [], message: "" });
     } catch {
       toast.error("Something went wrong. Please email us directly at rebels.hyd@gmail.com");
     } finally {
@@ -136,7 +143,7 @@ const Contact = () => {
               transition={{ duration: 0.6, delay: 0.2 }}
             >
               <h3 className="font-display text-2xl font-bold mb-8 text-foreground">Reach Out</h3>
-              
+
               <div className="space-y-6">
                 <div className="flex items-start gap-4">
                   <div className="w-12 h-12 rounded-lg bg-primary/10 border border-primary/30 flex items-center justify-center flex-shrink-0">
@@ -204,96 +211,56 @@ const Contact = () => {
             >
               <Tabs defaultValue="contact" className="w-full">
                 <TabsList className="grid w-full grid-cols-2 mb-6">
-                  <TabsTrigger value="contact">Send a Message</TabsTrigger>
-                  <TabsTrigger value="join">Join the Team</TabsTrigger>
+                  <TabsTrigger value="contact" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground text-foreground">Send a Message</TabsTrigger>
+                  <TabsTrigger value="join" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground text-foreground">Join the Team</TabsTrigger>
                 </TabsList>
 
                 <TabsContent value="contact">
                   <form onSubmit={handleContactSubmit} className="bg-card border border-border rounded-xl p-6 md:p-8">
                     <h3 className="font-display text-2xl font-bold mb-6 text-foreground">Send a Message</h3>
-                    
+
                     <div className="grid sm:grid-cols-2 gap-4 mb-4">
                       <div>
-                        <label htmlFor="contact-name" className="text-sm text-muted-foreground mb-2 block">
-                          Your Name
-                        </label>
-                        <Input
-                          id="contact-name"
-                          type="text"
-                          placeholder="John Doe"
-                          value={contactForm.name}
-                          onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })}
-                          required
-                          className="bg-background border-border"
-                        />
+                        <label htmlFor="contact-name" className="text-sm text-muted-foreground mb-2 block">Your Name</label>
+                        <Input id="contact-name" type="text" placeholder="John Doe" value={contactForm.name} onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })} required className="bg-background border-border" />
                       </div>
                       <div>
-                        <label htmlFor="contact-email" className="text-sm text-muted-foreground mb-2 block">
-                          Email Address
-                        </label>
-                        <Input
-                          id="contact-email"
-                          type="email"
-                          placeholder="john@example.com"
-                          value={contactForm.email}
-                          onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })}
-                          required
-                          className="bg-background border-border"
-                        />
+                        <label htmlFor="contact-email" className="text-sm text-muted-foreground mb-2 block">Email Address</label>
+                        <Input id="contact-email" type="email" placeholder="john@example.com" value={contactForm.email} onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })} required className="bg-background border-border" />
                       </div>
                     </div>
 
                     <div className="mb-4">
-                      <label htmlFor="contact-subject" className="text-sm text-muted-foreground mb-2 block">
-                        Subject
-                      </label>
-                      <Input
-                        id="contact-subject"
-                        type="text"
-                        placeholder="How can we help?"
-                        value={contactForm.subject}
-                        onChange={(e) => setContactForm({ ...contactForm, subject: e.target.value })}
-                        required
-                        className="bg-background border-border"
-                      />
+                      <label htmlFor="contact-subject" className="text-sm text-muted-foreground mb-2 block">Subject</label>
+                      <Input id="contact-subject" type="text" placeholder="How can we help?" value={contactForm.subject} onChange={(e) => setContactForm({ ...contactForm, subject: e.target.value })} required className="bg-background border-border" />
                     </div>
 
                     <div className="mb-6">
-                      <label htmlFor="contact-message" className="text-sm text-muted-foreground mb-2 block">
-                        Message
-                      </label>
+                      <div className="flex items-center justify-between mb-2">
+                        <label htmlFor="contact-message" className="text-sm text-muted-foreground">Message</label>
+                        <span className={`text-xs ${contactForm.message.length > MAX_MESSAGE_LENGTH ? "text-destructive" : "text-muted-foreground"}`}>
+                          {contactForm.message.length}/{MAX_MESSAGE_LENGTH}
+                        </span>
+                      </div>
                       <Textarea
                         id="contact-message"
                         placeholder="Tell us more about your inquiry..."
                         value={contactForm.message}
-                        onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
+                        onChange={(e) => setContactForm({ ...contactForm, message: e.target.value.slice(0, MAX_MESSAGE_LENGTH + 50) })}
                         required
                         rows={5}
                         className="bg-background border-border resize-none"
                       />
+                      {contactForm.message.length > MAX_MESSAGE_LENGTH && (
+                        <p className="text-xs text-destructive mt-1">Message exceeds {MAX_MESSAGE_LENGTH} characters</p>
+                      )}
                     </div>
 
                     <div className="flex flex-col sm:flex-row gap-3">
-                      <Button
-                        type="submit"
-                        size="lg"
-                        className="flex-1 font-display tracking-wide shadow-glow"
-                        disabled={isContactSubmitting}
-                      >
-                        {isContactSubmitting ? "Sending..." : (
-                          <>
-                            <Send className="mr-2 h-5 w-5" />
-                            Send via Email
-                          </>
-                        )}
+                      <Button type="submit" size="lg" className="flex-1 font-display tracking-wide shadow-glow min-h-[44px]" disabled={isContactSubmitting}>
+                        {isContactSubmitting ? "Sending..." : (<><Send className="mr-2 h-5 w-5" />Send via Email</>)}
                       </Button>
-                      <Button
-                        type="button"
-                        variant="outline"
-                        size="lg"
-                        onClick={openInstagramDM}
-                        className="flex-1 font-display tracking-wide border-primary/50 hover:bg-primary/10"
-                      >
+                      <Button type="button" variant="outline" size="lg" onClick={openInstagramDM} className="flex-1 font-display tracking-wide border-primary/50 hover:bg-primary/10 min-h-[44px]">
                         DM on Instagram
                       </Button>
                     </div>
@@ -315,63 +282,35 @@ const Contact = () => {
                     <div className="space-y-4 mb-6">
                       <div className="grid sm:grid-cols-2 gap-4">
                         <div>
-                          <label htmlFor="join-name" className="text-sm text-muted-foreground mb-2 block">
-                            Full Name *
-                          </label>
-                          <Input
-                            id="join-name"
-                            type="text"
-                            placeholder="Your full name"
-                            value={joinForm.name}
-                            onChange={(e) => setJoinForm({ ...joinForm, name: e.target.value })}
-                            required
-                            className="bg-background border-border"
-                          />
+                          <label htmlFor="join-name" className="text-sm text-muted-foreground mb-2 block">Full Name *</label>
+                          <Input id="join-name" type="text" placeholder="Your full name" value={joinForm.name} onChange={(e) => setJoinForm({ ...joinForm, name: e.target.value })} required className="bg-background border-border" />
                         </div>
                         <div>
-                          <label htmlFor="join-email" className="text-sm text-muted-foreground mb-2 block">
-                            Email Address *
-                          </label>
-                          <Input
-                            id="join-email"
-                            type="email"
-                            placeholder="your@email.com"
-                            value={joinForm.email}
-                            onChange={(e) => setJoinForm({ ...joinForm, email: e.target.value })}
-                            required
-                            className="bg-background border-border"
-                          />
+                          <label htmlFor="join-email" className="text-sm text-muted-foreground mb-2 block">Email Address *</label>
+                          <Input id="join-email" type="email" placeholder="your@email.com" value={joinForm.email} onChange={(e) => setJoinForm({ ...joinForm, email: e.target.value })} required className="bg-background border-border" />
                         </div>
                       </div>
 
                       <div className="grid sm:grid-cols-2 gap-4">
                         <div>
-                          <label htmlFor="join-phone" className="text-sm text-muted-foreground mb-2 block">
-                            Phone Number *
-                          </label>
+                          <label htmlFor="join-phone" className="text-sm text-muted-foreground mb-2 block">Phone Number *</label>
                           <Input
                             id="join-phone"
                             type="tel"
                             placeholder="+1 (XXX) XXX-XXXX"
                             value={joinForm.phone}
-                            onChange={(e) => setJoinForm({ ...joinForm, phone: e.target.value })}
+                            onChange={(e) => setJoinForm({ ...joinForm, phone: sanitizePhone(e.target.value) })}
+                            maxLength={12}
                             required
                             className="bg-background border-border"
                           />
+                          {joinForm.phone && !isValidPhone(joinForm.phone) && (
+                            <p className="text-xs text-destructive mt-1">Enter a valid phone (digits, +, -, spaces only; max 12 chars)</p>
+                          )}
                         </div>
                         <div>
-                          <label htmlFor="join-experience" className="text-sm text-muted-foreground mb-2 block">
-                            Playing Experience *
-                          </label>
-                          <Input
-                            id="join-experience"
-                            type="text"
-                            placeholder="e.g., 5 years, Club level"
-                            value={joinForm.experience}
-                            onChange={(e) => setJoinForm({ ...joinForm, experience: e.target.value })}
-                            required
-                            className="bg-background border-border"
-                          />
+                          <label htmlFor="join-experience" className="text-sm text-muted-foreground mb-2 block">Playing Experience *</label>
+                          <Input id="join-experience" type="text" placeholder="e.g., 5 years, Club level" value={joinForm.experience} onChange={(e) => setJoinForm({ ...joinForm, experience: e.target.value })} required className="bg-background border-border" />
                         </div>
                       </div>
                     </div>
@@ -382,83 +321,69 @@ const Contact = () => {
                         Your Special Skills * (Select all that apply)
                       </label>
                       <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                         {skills.map((skill) => {
-                           const isSelected = joinForm.selectedSkills.includes(skill.id);
-                           return (
-                             <div
-                               key={skill.id}
-                               role="button"
-                               tabIndex={0}
-                               onClick={() => handleSkillToggle(skill.id)}
-                               onKeyDown={(e) => {
-                                 if (e.key === 'Enter' || e.key === ' ') {
-                                   e.preventDefault();
-                                   handleSkillToggle(skill.id);
-                                 }
-                               }}
-                               className={`flex items-center gap-2 p-3 rounded-lg border cursor-pointer transition-all select-none ${
-                                 isSelected
-                                   ? "bg-primary/10 border-primary/50 text-primary"
-                                   : "bg-background border-border text-muted-foreground hover:border-primary/30"
-                               }`}
-                             >
-                               <div
-                                 className={`h-4 w-4 shrink-0 rounded-sm border flex items-center justify-center ${
-                                   isSelected
-                                     ? "bg-primary border-primary text-primary-foreground"
-                                     : "border-primary"
-                                 }`}
-                               >
-                                 {isSelected && (
-                                   <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                                     <polyline points="20 6 9 17 4 12" />
-                                   </svg>
-                                 )}
-                               </div>
-                               <span className="text-sm font-medium">
-                                 {skill.label}
-                               </span>
-                             </div>
-                           );
-                         })}
+                        {skills.map((skill) => {
+                          const isSelected = joinForm.selectedSkills.includes(skill.id);
+                          return (
+                            <div
+                              key={skill.id}
+                              role="button"
+                              tabIndex={0}
+                              onClick={() => handleSkillToggle(skill.id)}
+                              onKeyDown={(e) => {
+                                if (e.key === "Enter" || e.key === " ") {
+                                  e.preventDefault();
+                                  handleSkillToggle(skill.id);
+                                }
+                              }}
+                              className={`flex items-center gap-2 p-3 rounded-lg border cursor-pointer transition-all select-none ${
+                                isSelected
+                                  ? "bg-primary/10 border-primary/50 text-primary"
+                                  : "bg-background border-border text-muted-foreground hover:border-primary/30"
+                              }`}
+                            >
+                              <div
+                                className={`h-4 w-4 shrink-0 rounded-sm border flex items-center justify-center ${
+                                  isSelected ? "bg-primary border-primary text-primary-foreground" : "border-primary"
+                                }`}
+                              >
+                                {isSelected && (
+                                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                                    <polyline points="20 6 9 17 4 12" />
+                                  </svg>
+                                )}
+                              </div>
+                              <span className="text-sm font-medium">{skill.label}</span>
+                            </div>
+                          );
+                        })}
                       </div>
                     </div>
 
                     <div className="mb-6">
-                      <label htmlFor="join-message" className="text-sm text-muted-foreground mb-2 block">
-                        Tell us more about yourself (optional)
-                      </label>
+                      <div className="flex items-center justify-between mb-2">
+                        <label htmlFor="join-message" className="text-sm text-muted-foreground">Tell us more about yourself (optional)</label>
+                        <span className={`text-xs ${joinForm.message.length > MAX_MESSAGE_LENGTH ? "text-destructive" : "text-muted-foreground"}`}>
+                          {joinForm.message.length}/{MAX_MESSAGE_LENGTH}
+                        </span>
+                      </div>
                       <Textarea
                         id="join-message"
                         placeholder="Share your cricket journey, achievements, or anything else..."
                         value={joinForm.message}
-                        onChange={(e) => setJoinForm({ ...joinForm, message: e.target.value })}
+                        onChange={(e) => setJoinForm({ ...joinForm, message: e.target.value.slice(0, MAX_MESSAGE_LENGTH + 50) })}
                         rows={4}
                         className="bg-background border-border resize-none"
                       />
+                      {joinForm.message.length > MAX_MESSAGE_LENGTH && (
+                        <p className="text-xs text-destructive mt-1">Description exceeds {MAX_MESSAGE_LENGTH} characters</p>
+                      )}
                     </div>
 
                     <div className="flex flex-col sm:flex-row gap-3">
-                      <Button
-                        type="submit"
-                        size="lg"
-                        className="flex-1 font-display tracking-wide shadow-glow"
-                        disabled={isJoinSubmitting}
-                      >
-                        {isJoinSubmitting ? "Sending..." : (
-                          <>
-                            <Send className="mr-2 h-5 w-5" />
-                            Submit Application
-                          </>
-                        )}
+                      <Button type="submit" size="lg" className="flex-1 font-display tracking-wide shadow-glow min-h-[44px]" disabled={isJoinSubmitting}>
+                        {isJoinSubmitting ? "Sending..." : (<><Send className="mr-2 h-5 w-5" />Submit Application</>)}
                       </Button>
-                      <Button
-                        type="button"
-                        variant="outline"
-                        size="lg"
-                        onClick={openInstagramDM}
-                        className="flex-1 font-display tracking-wide border-primary/50 hover:bg-primary/10"
-                      >
+                      <Button type="button" variant="outline" size="lg" onClick={openInstagramDM} className="flex-1 font-display tracking-wide border-primary/50 hover:bg-primary/10 min-h-[44px]">
                         DM on Instagram
                       </Button>
                     </div>

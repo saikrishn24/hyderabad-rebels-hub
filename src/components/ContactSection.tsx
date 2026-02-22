@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
+import { MAX_MESSAGE_LENGTH } from "@/lib/validation";
 
 const socialLinks = [
   { name: "Instagram", icon: Instagram, href: "https://www.instagram.com/hydrebels_cricketclub", color: "hover:text-pink-500" },
@@ -19,6 +20,11 @@ export const ContactSection = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (formData.message.length > MAX_MESSAGE_LENGTH) {
+      toast.error(`Message must be ${MAX_MESSAGE_LENGTH} characters or fewer`);
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {
@@ -184,18 +190,24 @@ export const ContactSection = () => {
               </div>
 
               <div className="mb-6">
-                <label htmlFor="message" className="text-sm text-muted-foreground mb-2 block">
-                  Message
-                </label>
+                <div className="flex items-center justify-between mb-2">
+                  <label htmlFor="message" className="text-sm text-muted-foreground">Message</label>
+                  <span className={`text-xs ${formData.message.length > MAX_MESSAGE_LENGTH ? "text-destructive" : "text-muted-foreground"}`}>
+                    {formData.message.length}/{MAX_MESSAGE_LENGTH}
+                  </span>
+                </div>
                 <Textarea
                   id="message"
                   placeholder="Tell us more about your inquiry..."
                   value={formData.message}
-                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                  onChange={(e) => setFormData({ ...formData, message: e.target.value.slice(0, MAX_MESSAGE_LENGTH + 50) })}
                   required
                   rows={5}
                   className="bg-background border-border resize-none"
                 />
+                {formData.message.length > MAX_MESSAGE_LENGTH && (
+                  <p className="text-xs text-destructive mt-1">Message exceeds {MAX_MESSAGE_LENGTH} characters</p>
+                )}
               </div>
 
               <div className="flex flex-col sm:flex-row gap-3">
